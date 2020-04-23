@@ -3,20 +3,19 @@ import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { connect } from "react-redux";
 import Home from "../src/components/home";
 import CarRent from "../src/components/car-rent";
 import CarDetail from "../src/components/carDetail";
 import { PaymentPage } from "./components/paymentPage";
 import Rental from "./components/rentalPage";
 import ReturnCar from "./components/returnCar";
-import AddNewCar from "./components/dashboard/add-New-Car";
 import LogIn from "./components/dashboard/logIn";
 import Dashboard from "./components/dashboard/dashboard-profile";
 import { Callback } from "./utils/callback/callback";
 import AuthCheck from "./utils/authcheck";
 import Auth from "./utils/auth";
 import history from "./utils/history/history";
-import { connect } from "react-redux";
 
 const styles = {
   nav: {
@@ -70,13 +69,11 @@ function App(props) {
           <Route exact path="/" component={Home} />
           <Route exact path="/user/rent" component={Rental} />
           <Route path="/return-car" component={ReturnCar} />
-          <Route path="/new-car" component={AddNewCar} />
           <Route
             path="/dashboard/logIn"
             exact
             render={(props) => <LogIn auth={auth} />}
           />
-
           <Route exact path="/rent-car/:type/:size" component={CarRent} />
           <Route path="/car2go-payment/:carId" component={PaymentPage} />
           <Route
@@ -91,7 +88,6 @@ function App(props) {
             props={props.AuthReducer}
             component={AuthCheck}
           />
-
           <ProtectedRoute props={AuthReducer} />
           {/* <Route path="/car-detail/:carNumber" component={CarDetail} /> */}
         </Switch>
