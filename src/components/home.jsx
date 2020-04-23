@@ -35,6 +35,7 @@ class Home extends Component {
     this.today = formatDate(Date.now());
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    console.log(this.props);
   }
 
   handleChange(event) {
