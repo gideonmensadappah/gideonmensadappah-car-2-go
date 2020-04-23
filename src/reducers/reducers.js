@@ -3,6 +3,8 @@ import storeState from "../metadata/dummyData.json";
 
 import { combineReducers } from "redux";
 const authState = {
+  name: "Admin@gmail.com",
+  password: "123456",
   is_Authanticated: false,
 };
 const AuthReducer = (state = authState, action) => {
