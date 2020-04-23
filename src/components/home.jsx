@@ -45,7 +45,7 @@ class Home extends Component {
     const data = this.state;
     const { size, type } = this.state;
     event.preventDefault();
-    console.log(this.state);
+
     this.props.history.push({
       pathname: `/rent-car/${type}/${size}`,
       state: data,
