@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Navbar, Nav, NavDropdown, NavDivider } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import Home from "../src/components/home";
 import CarRent from "../src/components/car-rent";
 import CarDetail from "../src/components/carDetail";
@@ -16,21 +16,31 @@ import { Callback } from "./utils/callback/callback";
 import AuthCheck from "./utils/authcheck";
 import Auth from "./utils/auth";
 import history from "./utils/history/history";
+import { connect } from "react-redux";
 
 const styles = {
   nav: {
     marginRight: "5em",
   },
 };
+const ProtectedRoute = (props) => {
+  const { is_Authanticated } = props.props;
 
+  if (is_Authanticated === true) {
+    return <Route path="/dashboard" component={Dashboard} />;
+  } else if (is_Authanticated === false) {
+    history.replace("/");
+    return <Route path="/" component={Home} />;
+  }
+};
 export const auth = new Auth();
 const handleAuthentication = (props) => {
   if (true) {
     auth.handleAuth();
   }
 };
-function App() {
-  console.log(history);
+function App(props) {
+  const { AuthReducer } = props.state;
   return (
     <Router history={history}>
       <div className="header">
@@ -66,7 +76,7 @@ function App() {
             exact
             render={(props) => <LogIn auth={auth} />}
           />
-          <Route path="/dashboard" component={Dashboard} />
+
           <Route exact path="/rent-car/:type/:size" component={CarRent} />
           <Route path="/car2go-payment/:carId" component={PaymentPage} />
           <Route
@@ -76,12 +86,20 @@ function App() {
               return <Callback history={history} />;
             }}
           />
-          <Route path="/authcheck" render={() => <AuthCheck auth={auth} />} />
+          <Route
+            path="/authcheck"
+            props={props.AuthReducer}
+            component={AuthCheck}
+          />
+
+          <ProtectedRoute props={AuthReducer} />
           {/* <Route path="/car-detail/:carNumber" component={CarDetail} /> */}
         </Switch>
       </div>
     </Router>
   );
 }
-
-export default App;
+const mapStateToProps = (state) => {
+  return { state };
+};
+export default connect(mapStateToProps)(App);
