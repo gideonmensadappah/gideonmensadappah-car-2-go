@@ -1,0 +1,14 @@
+#car-list-btn {
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  align-items: center;
+  width: 200px;
+}
+.car-btn {
+  display: flex;
+  justify-content: center;
+}
+.rented {
+  color: red;
+}

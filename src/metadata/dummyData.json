@@ -1,0 +1,62 @@
+[
+  {
+    "number": 12345678,
+    "maker": "toyota",
+    "name": "corolla",
+    "image": "https://images.toyota-europe.com/il/product-token/799ee039-2085-4588-85c0-f53d87120e28/width/1200/exterior-3.jpg",
+    "size": 1,
+    "year": "2019",
+    "price": 300.9,
+    "type": "auto",
+    "rented": false,
+    "kms": "20,000"
+  },
+  {
+    "number": 634556,
+    "maker": "toyota",
+    "name": "corolla",
+    "image": "https://images.toyota-europe.com/il/product-token/799ee039-2085-4588-85c0-f53d87120e28/width/1200/exterior-3.jpg",
+    "size": 2,
+    "year": "2012",
+    "price": 219.9,
+    "type": "manual",
+    "rented": false,
+    "kms": "170,555"
+  },
+  {
+    "number": 7373735,
+    "maker": "honda",
+    "name": "HR-V",
+    "image": "https://cloud.cmotors.co.il/wp-content/uploads/2018/08/23053656/HR_V300x300.png",
+    "size": 1,
+    "year": "2014",
+    "price": 240.9,
+    "type": "auto",
+    "rented": false,
+    "kms": "60,555"
+  },
+  {
+    "number": 2222223,
+    "maker": "honda",
+    "name": "HR-T",
+    "image": "https://cloud.cmotors.co.il/wp-content/uploads/2018/08/23053656/HR_V300x300.png",
+    "size": 3,
+    "year": "2019",
+    "price": 740.9,
+    "type": "manual",
+    "rented": false,
+    "kms": "1,555"
+  },
+  {
+    "number": 5555555,
+    "maker": "Mazda",
+    "name": "3",
+    "image": "https://cloud.cmotors.co.il/wp-content/uploads/2018/08/23053656/HR_V300x300.png",
+    "size": 2,
+    "year": "2014",
+    "price": 440.9,
+    "type": "manual",
+    "rented": false,
+    "kms": "30,555"
+  }
+]
