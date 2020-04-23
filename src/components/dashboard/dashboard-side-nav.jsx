@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
+
 const styles = {
   sidebar: {
     position: "fixed",
@@ -21,7 +22,8 @@ const styles = {
       "auto" /* Scrollable contents if viewport is shorter than content. */,
   },
 };
-export const SideNav = () => {
+const SideNav = (props) => {
+  console.log(props);
   return (
     <>
       <div className="container-fluid">
@@ -64,9 +66,9 @@ export const SideNav = () => {
                   </Link>
                 </li>
                 <li class="nav-item">
-                  <Link class="nav-link" href="#">
-                    <span data-feather="layers"></span>
-                    Integrations
+                  <Link to="/" class="nav-link active" href="#">
+                    <span data-feather="home"></span>
+                    Logout
                   </Link>
                 </li>
               </ul>
@@ -77,3 +79,5 @@ export const SideNav = () => {
     </>
   );
 };
+
+export default withRouter(SideNav);
