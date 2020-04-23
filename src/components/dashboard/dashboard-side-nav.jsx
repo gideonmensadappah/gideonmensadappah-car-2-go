@@ -23,50 +23,49 @@ const styles = {
   },
 };
 const SideNav = (props) => {
-  console.log(props);
   return (
     <>
       <div className="container-fluid">
         <div className="row">
           {" "}
           <nav
-            class="col-md-2 d-none d-md-block bg-light"
+            className="col-md-2 d-none d-md-block bg-light"
             style={styles.sidebar}
           >
-            <div class="sidebar-sticky" style={styles.sidebarSsticky}>
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <Link class="nav-link active" href="#">
+            <div className="sidebar-sticky" style={styles.sidebarSsticky}>
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <Link className="nav-link active" to="/dashboard">
                     <span data-feather="home"></span>
-                    Dashboard <span class="sr-only">(current)</span>
+                    Dashboard <span className="sr-only">(current)</span>
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/rented-cars">
                     <span data-feather="file"></span>
-                    Orders
+                    Rented Cars
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/inventory">
                     <span data-feather="shopping-cart"></span>
-                    Products
+                    Inventory
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/customers">
                     <span data-feather="users"></span>
                     Customers
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/report">
                     <span data-feather="bar-chart-2"></span>
                     Reports
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link to="/" class="nav-link active" href="#">
+                <li className="nav-item">
+                  <Link to="/" className="nav-link active">
                     <span data-feather="home"></span>
                     Logout
                   </Link>
