@@ -21,7 +21,6 @@ const ReturnCarForm = ({ carToReturn, cars, history }) => {
 
   return (
     <>
-      <input type="button" value="state" onClick={() => console.log(cars)} />
       <form onSubmit={handleSubmit}>
         <label>car number:</label> <br />
         <input onChange={handleInputChange} placeholder="number" />
@@ -31,12 +30,9 @@ const ReturnCarForm = ({ carToReturn, cars, history }) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { cars: state };
-};
 const mapDispatchToProps = (dispatch) => {
   return {
     carToReturn: (id) => dispatch(returnCar(id)),
   };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(ReturnCarForm);
+export default connect(null, mapDispatchToProps)(ReturnCarForm);
