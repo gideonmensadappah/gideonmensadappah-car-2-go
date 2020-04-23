@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 class LogIn extends Component {
   constructor() {
@@ -14,7 +14,10 @@ class LogIn extends Component {
   handleSubmit = (event) => {
     event.preventDefault();
     console.log(this.state);
-    this.props.auth.login();
+    this.props.history.push({
+      pathname: "/authcheck",
+      state: this.state,
+    });
 
     //jwt web token//
   };
@@ -31,12 +34,15 @@ class LogIn extends Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   onChange={this.handleChange}
+                  name="userName"
                   aria-describedby="emailHelp"
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Password</label>
                 <input
+                  onChange={this.handleChange}
+                  name="password"
                   type="password"
                   className="form-control"
                   id="exampleInputPassword1"
@@ -54,4 +60,4 @@ class LogIn extends Component {
   }
 }
 
-export default connect(null)(LogIn);
+export default withRouter(LogIn);
