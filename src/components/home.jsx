@@ -16,81 +16,60 @@ const styles = {
   },
 };
 
+function formatDate(date) {
+  var d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {};
-
+    this.today = formatDate(Date.now());
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  componentDidMount() {
-    console.log(this.props);
-    this.handleSubmit();
+  handleSubmit(event) {
+    const data = this.state;
+    const { size, type } = this.state;
+    event.preventDefault();
+    console.log(this.state);
+    this.props.history.push({
+      pathname: `/rent-car/${type}/${size}`,
+      state: data,
+    });
   }
 
-  handleSubmit = function () {
-    this.pickUpDate = null;
-    this.returnDate = null;
-    this.carType = null;
-    this.carSize = null;
-
-    let form = document.querySelector("form");
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const exampleRadios = document.getElementsByName("exampleRadios");
-      const carSize = document.getElementsByName("checkBoxSize");
-      const dateStartValue = document.getElementById("start").value;
-      const dateReturnValue = document.getElementById("end").value;
-
-      for (let i = 0, length = exampleRadios.length; i < length; i++) {
-        if (exampleRadios[i].checked) {
-          this.carType = exampleRadios[i].value;
-          break;
-        }
-      }
-      for (let i = 0, length = carSize.length; i < length; i++) {
-        if (carSize[i].checked) {
-          this.carSize = carSize[i].value;
-          this.pickUpDate = dateStartValue;
-          this.returnDate = dateReturnValue;
-          const data = {
-            type: this.carType,
-            size: this.carSize,
-            pickUpDate: this.pickUpDate,
-            returnDate: this.returnDate,
-          };
-
-          // this.props.history.push({
-          //   pathname: `/rent-car/${data.type}/${data.size}`,
-          //   state: data,
-          // });
-          break;
-        }
-      }
-    });
-  };
-
   render() {
-    console.log(this.state);
     return (
       <>
-        <form style={styles.form}>
+        <form onSubmit={this.handleSubmit} style={styles.form}>
           <div style={styles.date}>
             <label htmlFor="start">Pickup Date</label>
             <input
               id="start"
+              min={this.today}
               onChange={this.handleChange}
               name="rentalDate"
               type="date"
               required
             />
+
             <label htmlFor="end">Return Date</label>
             <input
+              onChange={this.handleChange}
               id="end"
               name="return-date"
               min={this.state.rentalDate}
@@ -102,9 +81,10 @@ class Home extends Component {
             <span>CHOOSE SIZE</span>
             <div className="form-check">
               <input
+                onChange={this.handleChange}
                 className="form-check-input"
                 type="radio"
-                name="checkBoxSize"
+                name="size"
                 id="checkBoxSmall"
                 value="1"
               />
@@ -114,9 +94,10 @@ class Home extends Component {
             </div>
             <div className="form-check">
               <input
+                onChange={this.handleChange}
                 className="form-check-input"
                 type="radio"
-                name="checkBoxSize"
+                name="size"
                 id="exampleRadios2"
                 value="2"
               />
@@ -126,9 +107,10 @@ class Home extends Component {
             </div>
             <div className="form-check">
               <input
+                onChange={this.handleChange}
                 className="form-check-input"
                 type="radio"
-                name="checkBoxSize"
+                name="size"
                 id="exampleRadios1"
                 value="3"
               />
@@ -141,9 +123,10 @@ class Home extends Component {
 
           <div className="form-check" style={styles.checkbox}>
             <input
+              onChange={this.handleChange}
               className="form-check-input"
               type="radio"
-              name="exampleRadios"
+              name="type"
               id="checkboxAuto"
               value="Auto"
             />
@@ -153,9 +136,10 @@ class Home extends Component {
           </div>
           <div className="form-check" style={styles.checkbox}>
             <input
+              onChange={this.handleChange}
               className="form-check-input"
               type="radio"
-              name="exampleRadios"
+              name="type"
               id="checkBoxManual"
               value="Manual"
             />
