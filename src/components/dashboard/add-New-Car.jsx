@@ -28,7 +28,6 @@ class AddNewCar extends Component {
     event.preventDefault();
 
     // File
-
     const img = document.createElement("img");
     img.src = URL.createObjectURL(this.fileInput.current.files[0]);
 
@@ -52,7 +51,7 @@ class AddNewCar extends Component {
     };
 
     addNewCar(obj);
-    history.push("/");
+    history.push("/dashboard");
   };
 
   render() {
