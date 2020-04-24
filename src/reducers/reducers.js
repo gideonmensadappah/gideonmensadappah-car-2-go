@@ -1,6 +1,6 @@
 import { ActionType } from "../actions/action_types";
 import storeState from "../metadata/dummyData.json";
-
+import { createSelector } from "reselect";
 import { combineReducers } from "redux";
 const authState = {
   name: "Admin@gmail.com",
@@ -51,7 +51,14 @@ const rootReducer = (state = storeState, action) => {
       return state;
   }
 };
+const carsList = (storeState) => storeState.rootReducer;
+export const selectRentedCars = createSelector(carsList, (cars) =>
+  cars.filter((cars) => cars.rented === true)
+);
 
+export const carsInStock = createSelector(carsList, (cars) =>
+  cars.filter((cars) => cars.rented === false)
+);
 export default combineReducers({
   rootReducer,
   AuthReducer,
