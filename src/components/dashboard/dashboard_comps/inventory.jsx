@@ -1,0 +1,65 @@
+import React, { useCallback } from "react";
+import { carsInStock } from "../../../reducers/reducers";
+import { connect } from "react-redux";
+const styls = { image: { width: "3em" } };
+const InventoryList = ({ cars, history }) => {
+  const handleClick = useCallback(() => {
+    history.push("/dashboard/new-car");
+  }, [history]);
+  return (
+    <>
+      <div className="col-8">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Name</th>
+              <th scope="col">Maker</th>
+              <th scope="col">Number</th>
+              <th scope="col">Price</th>
+              <th scope="col">Type</th>
+              <th scope="col">Kms</th>
+              <th scope="col">Year</th>
+            </tr>
+          </thead>
+          <tbody>
+            {cars.map((car) => (
+              <tr>
+                <>
+                  <th scope="row">
+                    <img alt="" src={car.image} style={styls.image} />
+                  </th>
+                  <td>{car.name}</td>
+                  <td>{car.maker}</td>
+                  <td>{car.number}</td>
+                  <td>{car.price}</td>
+                  <td>{car.type}</td>
+                  <td>{car.kms}</td>
+                </>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div className="ml-auto">
+          <input
+            className="btn btn-primary mt-3 ml-auto"
+            type="click"
+            onClick={handleClick}
+            value="add new car"
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+const Inventory = ({ carsInStock, history }) => {
+  return (
+    <>
+      <InventoryList history={history} cars={carsInStock} />
+    </>
+  );
+};
+const mapStateToProps = (state) => {
+  return { carsInStock: carsInStock(state) };
+};
+export default connect(mapStateToProps)(Inventory);
