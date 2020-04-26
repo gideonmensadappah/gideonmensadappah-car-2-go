@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
-
+import { connect } from "react-redux";
 class LogIn extends Component {
   constructor() {
     super();
@@ -13,10 +13,18 @@ class LogIn extends Component {
     this.setState({ [event.target.name]: event.target.value });
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.history.push({
-      pathname: "/authcheck",
-      state: this.state,
-    });
+    const { AuthReducer } = this.props;
+    console.log(this.state);
+    if (AuthReducer.name !== this.state.userName) {
+      alert("Email Is Not Correct!");
+    } else if (AuthReducer.password !== this.state.password) {
+      alert("Password Is Not Correct!");
+    } else {
+      this.props.history.push({
+        pathname: "/authcheck",
+        state: this.state,
+      });
+    }
 
     //jwt web token//
   };
@@ -58,5 +66,7 @@ class LogIn extends Component {
     );
   }
 }
-
-export default withRouter(LogIn);
+const mapStateToProps = ({ AuthReducer }) => {
+  return { AuthReducer };
+};
+export default connect(mapStateToProps)(withRouter(LogIn));
