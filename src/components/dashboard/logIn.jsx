@@ -13,7 +13,6 @@ class LogIn extends Component {
     this.setState({ [event.target.name]: event.target.value });
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
     this.props.history.push({
       pathname: "/authcheck",
       state: this.state,
