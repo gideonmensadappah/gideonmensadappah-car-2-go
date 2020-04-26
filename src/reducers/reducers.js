@@ -2,6 +2,22 @@ import { ActionType } from "../actions/action_types";
 import storeState from "../metadata/dummyData.json";
 import { createSelector } from "reselect";
 import { combineReducers } from "redux";
+
+const costumersReducer = (state = [], action) => {
+  switch (action.type) {
+    case ActionType.ADD_COSTOMER:
+      return [...state, action.payload];
+    case ActionType.REMOVE_COSTOMER:
+      const index = state.findIndex(
+        (costumer) => costumer.carNumber === action.id
+      );
+      const newState = [...state.slice(0, index), ...state.slice(index + 1)];
+      return newState;
+    default:
+      return state;
+  }
+};
+
 const authState = {
   name: "Admin@gmail.com",
   password: "123456",
@@ -62,4 +78,5 @@ export const carsInStock = createSelector(carsList, (cars) =>
 export default combineReducers({
   rootReducer,
   AuthReducer,
+  costumersReducer,
 });
