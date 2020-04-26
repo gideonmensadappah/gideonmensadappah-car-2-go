@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import { connect } from "react-redux";
 import { login_success, login_failure } from "../actions/action_types";
 
@@ -21,7 +20,7 @@ class AuthCheck extends Component {
       }
     } else {
       this.props.login_failure();
-      this.props.history.replace("/");
+      this.props.history.replace("/dashboard/login");
     }
   }
   render() {
