@@ -1,5 +1,11 @@
 import { ActionType } from "./action_types";
 
+export const ADD_COSTOMER = {
+  type: ActionType.ADD_COSTOMER,
+};
+export const REMOVE_COSTOMER = {
+  type: ActionType.REMOVE_COSTOMER,
+};
 export const RENTED = {
   type: ActionType.RENT,
 };
