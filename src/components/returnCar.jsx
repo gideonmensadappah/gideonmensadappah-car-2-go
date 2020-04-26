@@ -1,18 +1,18 @@
 import React, { Component, useCallback } from "react";
 import { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { returnCar } from "../actions/action_types";
+import { returnCar, removeCustomer } from "../actions/action_types";
 
-const ReturnCarForm = ({ carToReturn, cars, history }) => {
+const ReturnCarForm = ({ carToReturn, removeCostumer, cars, history }) => {
   const [carNumber, setCarNumber] = useState(null);
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-
+      removeCostumer(parseInt(carNumber));
       carToReturn(parseInt(carNumber));
-      history.push("/");
+      history.push("/thank-you-user");
     },
-    [carNumber, carToReturn, history]
+    [carNumber, removeCostumer, carToReturn, history]
   );
   const handleInputChange = useCallback(
     (event) => setCarNumber(event.target.value),
@@ -33,6 +33,7 @@ const ReturnCarForm = ({ carToReturn, cars, history }) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     carToReturn: (id) => dispatch(returnCar(id)),
+    removeCostumer: (id) => dispatch(removeCustomer(id)),
   };
 };
 export default connect(null, mapDispatchToProps)(ReturnCarForm);
