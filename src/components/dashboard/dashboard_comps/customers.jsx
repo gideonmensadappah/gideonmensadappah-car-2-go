@@ -1,38 +1,47 @@
 import React from "react";
-export const Customers = () => {
+import { connect } from "react-redux";
+const CustomersList = ({ customers }) => {
   return (
     <>
-      Rented cars page
-      <table class="table">
-        <thead class="thead-light">
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
-          </tr>
-        </tbody>
-      </table>
+      {customers.map((user, i) => (
+        <tr key={i}>
+          <th scope="row">{i}</th>
+          <td>{user.name}</td>
+          <td>{user.email}</td>
+          <td>{user.phone}</td>
+          <td>{user.carNumber}</td>
+        </tr>
+      ))}
     </>
   );
 };
+
+const Customers = ({ customers }) => {
+  return (
+    <>
+      <div className="col-8">
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Car Number</th>
+            </tr>
+          </thead>
+          <tbody>
+            {customers.length > 0 ? (
+              <CustomersList customers={customers} />
+            ) : null}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+};
+const mapStateToProps = (state) => {
+  const { costumersReducer } = state;
+  return { customers: costumersReducer };
+};
+export default connect(mapStateToProps)(Customers);
