@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-// import data from "../metadata/dummyData.json";
 import home from "./home.css";
-import { withRouter } from "react-router";
 import { connect } from "react-redux";
 const styles = {
   checkbox: {
@@ -54,6 +52,7 @@ class Home extends Component {
   }
 
   render() {
+    console.log(this.props);
     return (
       <>
         <form onSubmit={this.handleSubmit} style={styles.form}>
