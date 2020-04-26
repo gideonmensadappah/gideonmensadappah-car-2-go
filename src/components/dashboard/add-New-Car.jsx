@@ -36,22 +36,24 @@ class AddNewCar extends Component {
     const div = document.getElementById("imageStore");
     div.appendChild(img);
     // end File
+    //get year
 
+    const dateObj = new Date(this.state.year);
     const obj = {
       number: parseInt(this.state.number),
       maker: this.state.maker,
       name: this.state.name,
       size: parseInt(document.getElementById("size").value),
       image: URL.createObjectURL(this.fileInput.current.files[0]),
-      year: this.state.year,
+      year: dateObj.getFullYear(),
       price: parseInt(this.state.price),
       type: document.getElementById("type").value,
       rented: false,
       kms: this.state.kms,
     };
-
+    console.log(obj);
     addNewCar(obj);
-    history.push("/dashboard");
+    history.push("/dashboard/inventory");
   };
 
   render() {
