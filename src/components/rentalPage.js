@@ -1,21 +1,25 @@
 import React from "react";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { connect } from "react-redux";
-import { ActionType, rent } from "../actions/action_types";
+import { rent, addCostomer } from "../actions/action_types";
+
 const Rental = (props) => {
+  const { AuthReducer } = props.state;
   const handleSubmitForm = useCallback(
     (event) => {
       event.preventDefault();
+      const carNumber = props.history.location.state.number;
       const user = {
+        //CHANGE TYPE FROM STRAIGHT MANIPULATION TO REACT WAY
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         phone: document.getElementById("phone").value,
+        carNumber: carNumber,
       };
-      const carNumber = props.history.location.state.number;
-      console.log(carNumber);
+
+      props.addCostomer(user);
       props.rentCar(carNumber);
-      console.log(props.state);
-      props.history.push("/");
+      props.history.push("/thank-you-user");
     },
     [props]
   );
@@ -72,6 +76,7 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => ({
   rentCar: (carNumber) => dispatch(rent(carNumber)),
+  addCostomer: (payload) => dispatch(addCostomer(payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Rental);
