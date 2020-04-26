@@ -1,13 +1,36 @@
 import React from "react";
 import { connect } from "react-redux";
 import { selectRentedCars } from "../../../reducers/reducers";
-const styls = { image: { width: "3em" } };
+const styles = { image: { width: "3em" } };
+const CarsList = ({ cars }) => {
+  return (
+    <>
+      <tbody>
+        {cars.map((car, i) => (
+          <tr key={i}>
+            <>
+              <th scope="row">
+                <img alt="" src={car.image} style={styles.image} />
+              </th>
+              <td>{car.name}</td>
+              <td>{car.maker}</td>
+              <td>{car.number}</td>
+              <td>{car.price}</td>
+              <td>{car.type}</td>
+              <td>{car.kms}</td>
+            </>
+          </tr>
+        ))}
+      </tbody>
+    </>
+  );
+};
 const RentedCarsList = ({ cars }) => {
   return (
     <>
       <div className="col-8">
-        <table class="table">
-          <thead class="thead-light">
+        <table className="table">
+          <thead className="thead-light">
             <tr>
               <th scope="col">Image</th>
               <th scope="col">Name</th>
@@ -19,23 +42,8 @@ const RentedCarsList = ({ cars }) => {
               <th scope="col">Year</th>
             </tr>
           </thead>
-          <tbody>
-            {cars.map((car) => (
-              <tr>
-                <>
-                  <th scope="row">
-                    <img alt="" src={car.image} style={styls.image} />
-                  </th>
-                  <td>{car.name}</td>
-                  <td>{car.maker}</td>
-                  <td>{car.number}</td>
-                  <td>{car.price}</td>
-                  <td>{car.type}</td>
-                  <td>{car.kms}</td>
-                </>
-              </tr>
-            ))}
-          </tbody>
+
+          {cars.length > 0 ? <CarsList cars={cars} /> : null}
         </table>
       </div>
     </>
