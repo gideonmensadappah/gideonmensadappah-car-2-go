@@ -16,7 +16,7 @@ import { Callback } from "./utils/callback/callback";
 import AuthCheck from "./utils/authcheck";
 import Auth from "./utils/auth";
 import history from "./utils/history/history";
-import Gratitude from "./components/userFunction";
+import Gratitude from "./components/gratitude";
 
 const styles = {
   RouteComponent: {
