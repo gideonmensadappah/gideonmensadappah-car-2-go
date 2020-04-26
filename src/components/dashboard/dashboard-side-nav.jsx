@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { withRouter, Link } from "react-router-dom";
-
+import { connect } from "react-redux";
+import { login_failure } from "../../actions/action_types";
 const styles = {
   sidebar: {
     position: "fixed",
@@ -22,7 +23,10 @@ const styles = {
       "auto" /* Scrollable contents if viewport is shorter than content. */,
   },
 };
-const SideNav = (props) => {
+const SideNav = ({ logOut }) => {
+  const handleLogOut = useCallback(() => {
+    logOut();
+  }, [logOut]);
   return (
     <>
       <div className="container-fluid">
@@ -65,10 +69,18 @@ const SideNav = (props) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link to="/" className="nav-link active">
-                    <span data-feather="home"></span>
-                    Logout
-                  </Link>
+                  <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    onClick={handleLogOut}
+                  >
+                    <span className="navbar-toggler-icon">logOut</span>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -78,5 +90,9 @@ const SideNav = (props) => {
     </>
   );
 };
-
-export default withRouter(SideNav);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logOut: () => dispatch(login_failure()),
+  };
+};
+export default connect(null, mapDispatchToProps)(withRouter(SideNav));
