@@ -1,7 +1,27 @@
 import React, { useCallback } from "react";
 import { carsInStock } from "../../../reducers/reducers";
 import { connect } from "react-redux";
-const styls = { image: { width: "3em" } };
+const styles = { image: { width: "3em" } };
+const CarsList = ({ cars }) => {
+  return (
+    <>
+      {cars.map((car, i) => (
+        <tr key={i}>
+          <th scope="row">
+            <img alt="" src={car.image} style={styles.image} />
+          </th>
+          <td>{car.name}</td>
+          <td>{car.maker}</td>
+          <td>{car.number}</td>
+          <td>{car.price}</td>
+          <td>{car.type}</td>
+          <td>{car.kms}</td>
+          <td>{car.year}</td>
+        </tr>
+      ))}
+    </>
+  );
+};
 const InventoryList = ({ cars, history }) => {
   const handleClick = useCallback(() => {
     history.push("/dashboard/new-car");
@@ -9,8 +29,8 @@ const InventoryList = ({ cars, history }) => {
   return (
     <>
       <div className="col-8">
-        <table class="table">
-          <thead class="thead-light">
+        <table className="table">
+          <thead className="thead-light">
             <tr>
               <th scope="col">Image</th>
               <th scope="col">Name</th>
@@ -22,28 +42,12 @@ const InventoryList = ({ cars, history }) => {
               <th scope="col">Year</th>
             </tr>
           </thead>
-          <tbody>
-            {cars.map((car) => (
-              <tr>
-                <>
-                  <th scope="row">
-                    <img alt="" src={car.image} style={styls.image} />
-                  </th>
-                  <td>{car.name}</td>
-                  <td>{car.maker}</td>
-                  <td>{car.number}</td>
-                  <td>{car.price}</td>
-                  <td>{car.type}</td>
-                  <td>{car.kms}</td>
-                </>
-              </tr>
-            ))}
-          </tbody>
+          <tbody>{cars.length > 0 ? <CarsList cars={cars} /> : null}</tbody>
         </table>
         <div className="ml-auto">
           <input
             className="btn btn-primary mt-3 ml-auto"
-            type="click"
+            type="button"
             onClick={handleClick}
             value="add new car"
           />
