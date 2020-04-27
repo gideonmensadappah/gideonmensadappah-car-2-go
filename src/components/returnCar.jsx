@@ -4,18 +4,14 @@ import { connect } from "react-redux";
 import { returnCar, removeCustomer } from "../actions/action_types";
 import * as css from "../components/returnCar.css";
 
-const ReturnCarForm = ({
-  carToReturn,
-  removeCostumer,
-  rootReducer,
-  history,
-}) => {
+const ReturnCarForm = ({ carToReturn, removeCostumer, history }) => {
   const [carNumber, setCarNumber] = useState(null);
 
   const handleSubmit = useCallback(
     (event) => {
       event.preventDefault();
-      if (parseInt(carNumber) !== rootReducer.number) {
+
+      if (!carNumber) {
         alert("Car Number Is Not Valid!");
       } else {
         removeCostumer(parseInt(carNumber));
@@ -23,7 +19,7 @@ const ReturnCarForm = ({
         history.push("/thank-you-user");
       }
     },
-    [carNumber, rootReducer.number, removeCostumer, carToReturn, history]
+    [carNumber, removeCostumer, carToReturn, history]
   );
   const handleInputChange = useCallback(
     (event) => setCarNumber(event.target.value),
@@ -36,11 +32,7 @@ const ReturnCarForm = ({
         <form onSubmit={handleSubmit}>
           <div className="container-form">
             <label>car number:</label> <br />
-            <input
-              onChange={handleInputChange}
-              type="text"
-              placeholder="number"
-            />
+            <input onChange={handleInputChange} placeholder="number" />
             <input
               type="submit"
               className="ml-2 mt-3 btn btn-outline-primary btn-sm"
@@ -59,8 +51,5 @@ const mapDispatchToProps = (dispatch) => {
     removeCostumer: (id) => dispatch(removeCustomer(id)),
   };
 };
-const mapStateToProps = (state) => {
-  const { rootReducer } = state;
-  return { rootReducer };
-};
-export default connect(mapStateToProps, mapDispatchToProps)(ReturnCarForm);
+
+export default connect(null, mapDispatchToProps)(ReturnCarForm);
