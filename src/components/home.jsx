@@ -52,105 +52,113 @@ class Home extends Component {
 
   render() {
     return (
-      <>
-        <form onSubmit={this.handleSubmit} style={styles.form}>
-          <div style={styles.date}>
-            <label htmlFor="start">Pickup Date</label>
-            <input
-              id="start"
-              min={this.today}
-              onChange={this.handleChange}
-              name="rentalDate"
-              type="date"
-              required
-            />
+      <div className="container-body">
+        <div className="center-div">
+          <div id="form-content">
+            <form onSubmit={this.handleSubmit} style={styles.form}>
+              <div style={styles.date}>
+                <label htmlFor="start">Pickup Date</label>
+                <input
+                  id="start"
+                  min={this.today}
+                  onChange={this.handleChange}
+                  name="rentalDate"
+                  type="date"
+                  required
+                />
 
-            <label htmlFor="end">Return Date</label>
-            <input
-              onChange={this.handleChange}
-              id="end"
-              name="return-date"
-              min={this.state.rentalDate}
-              type="date"
-              required
-            />
-          </div>
-          <div className="check-box-size-car" style={styles.checkbox}>
-            <span>CHOOSE SIZE</span>
-            <div className="form-check">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="radio"
-                name="size"
-                id="checkBoxSmall"
-                value="1"
-              />
-              <label className="form-check-label" htmlFor="small">
-                Small
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="radio"
-                name="size"
-                id="exampleRadios2"
-                value="2"
-              />
-              <label className="form-check-label" htmlFor="checkBoxMedium">
-                Medium
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                onChange={this.handleChange}
-                className="form-check-input"
-                type="radio"
-                name="size"
-                id="exampleRadios1"
-                value="3"
-              />
-              <label className="form-check-label" htmlFor="checkBoxLarge">
-                Large
-              </label>
-            </div>
-          </div>
-          <span>CHOOSE TYPE</span>
+                <label htmlFor="end">Return Date</label>
+                <input
+                  onChange={this.handleChange}
+                  id="end"
+                  name="return-date"
+                  min={this.state.rentalDate}
+                  type="date"
+                  required
+                />
+              </div>
+              <div className="check-box-size-car" style={styles.checkbox}>
+                <span>CHOOSE SIZE</span>
+                <div className="form-check">
+                  <input
+                    onChange={this.handleChange}
+                    className="form-check-input"
+                    type="radio"
+                    name="size"
+                    id="checkBoxSmall"
+                    value="1"
+                  />
+                  <label className="form-check-label" htmlFor="small">
+                    Small
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    onChange={this.handleChange}
+                    className="form-check-input"
+                    type="radio"
+                    name="size"
+                    id="exampleRadios2"
+                    value="2"
+                  />
+                  <label className="form-check-label" htmlFor="checkBoxMedium">
+                    Medium
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    onChange={this.handleChange}
+                    className="form-check-input"
+                    type="radio"
+                    name="size"
+                    id="exampleRadios1"
+                    value="3"
+                  />
+                  <label className="form-check-label" htmlFor="checkBoxLarge">
+                    Large
+                  </label>
+                </div>
+              </div>
+              <span>CHOOSE TYPE</span>
 
-          <div className="form-check" style={styles.checkbox}>
-            <input
-              onChange={this.handleChange}
-              className="form-check-input"
-              type="radio"
-              name="type"
-              id="checkboxAuto"
-              value="Auto"
-            />
-            <label className="form-check-label" htmlFor="checkBoxLarge">
-              Auto
-            </label>
-          </div>
-          <div className="form-check" style={styles.checkbox}>
-            <input
-              onChange={this.handleChange}
-              className="form-check-input"
-              type="radio"
-              name="type"
-              id="checkBoxManual"
-              value="Manual"
-            />
-            <label className="form-check-label" htmlFor="checkType">
-              Manual
-            </label>
-          </div>
+              <div className="form-check" style={styles.checkbox}>
+                <input
+                  onChange={this.handleChange}
+                  className="form-check-input"
+                  type="radio"
+                  name="type"
+                  id="checkboxAuto"
+                  value="Auto"
+                />
+                <label className="form-check-label" htmlFor="checkBoxLarge">
+                  Auto
+                </label>
+              </div>
+              <div className="form-check" style={styles.checkbox}>
+                <input
+                  onChange={this.handleChange}
+                  className="form-check-input"
+                  type="radio"
+                  name="type"
+                  id="checkBoxManual"
+                  value="Manual"
+                />
+                <label className="form-check-label" htmlFor="checkType">
+                  Manual
+                </label>
+              </div>
 
-          <button id="submitButton" type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </>
+              <button
+                id="submitButton"
+                type="submit"
+                className="btn btn-primary"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }
