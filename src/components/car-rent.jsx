@@ -3,12 +3,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import carsCss from "./carList.css";
 import { connect } from "react-redux";
+import returnCar from "./returnCar";
+import { CarList } from "./car-list";
+import { compared } from "../reducers/reducers";
+
+const styles = {
+  headerText: {
+    fontSize: "2em",
+  },
+};
 class CarRent extends Component {
   constructor() {
     super();
     this.state = {
       carList: [],
-      isRented: false,
+      isRented: null,
     };
   }
   componentDidMount() {
@@ -41,50 +50,43 @@ class CarRent extends Component {
     });
   };
   render() {
-    const cars = this.state.carList;
+    const { carList, isRented } = this.state;
+    const { rentedCarsDate } = this.props.state;
+    console.log(this.props);
+    const pickUp = this.props.history.location.state.rentalDate;
+    const returnDate = this.props.history.location.state.returnDate;
+    const date = new Date(returnDate);
     return (
       <React.Fragment>
-        <h1>Car rental page</h1>
-        {cars.length > 0
-          ? cars.map((car, index) =>
-              car.rented === false ? (
-                <div className="container my-5" key={index}>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="card" style={{ width: "30rem" }}>
-                        <img
-                          src={car.image}
-                          className="card-img-top"
-                          alt="..."
-                        />
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {car.maker + " " + car.name}
-                          </h5>
-
-                          <div className="car-btn">
-                            <input
-                              type="button"
-                              onClick={() => this.handleClick(car)}
-                              className="btn btn-primary"
-                              id="car-list-btn"
-                              value="Rent Now"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null
-            )
-          : "Oops we have no cars"}
+        {/* {carList.every((car) => car.rented === true) ? (
+          <>
+            <p style={styles.headerText}>
+              {" "}
+              "Sorry No Cars Available On your Requested Date"
+            </p>
+          </>
+        ) : ( */}
+        <>
+          <p
+            style={styles.headerText}
+          >{`Available Cars between: ${pickUp}/ ${date.getUTCDate()}`}</p>
+          <CarList
+            rentedCars={rentedCarsDate}
+            carList={carList}
+            pickUpDate={pickUp}
+            returnDate={returnDate}
+            click={this.handleClick}
+          />
+        </>
       </React.Fragment>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  return { state };
+  return {
+    state: state,
+    compared: compared(state.rootReducer, state.rentedCarsDate),
+  };
 };
 export default connect(mapStateToProps)(CarRent);
