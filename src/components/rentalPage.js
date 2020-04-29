@@ -1,20 +1,22 @@
 import React from "react";
 import { useCallback } from "react";
 import { connect } from "react-redux";
-import { rent, addCostomer, store_date } from "../actions/action_types";
+import { rent, addCustomer } from "../actions/action_types";
+import { useMemo } from "react";
+import queryString from "querystring";
 
 const Rental = (props) => {
-  const { rentalDate } = props.location.state;
-  const { returnDate } = props.location.state;
-  const { AuthReducer } = props.state;
-
-  const rentalDateTimeStemp = new Date(rentalDate);
-  const returnDateTimeStemp = new Date(returnDate);
+  const { addCustomer, rentCar, history, location } = props;
+  const query = useMemo(
+    () =>
+      queryString.parse(location.search.slice(1, location.search.length - 1)),
+    [location]
+  );
+  const { carNumber, rentalDate, returnDate } = query;
 
   const handleSubmitForm = useCallback(
     (event) => {
       event.preventDefault();
-      const carNumber = props.history.location.state.number;
 
       const user = {
         //CHANGE TYPE FROM STRAIGHT MANIPULATION TO REACT WAY
@@ -22,17 +24,16 @@ const Rental = (props) => {
         email: document.getElementById("email").value,
         phone: document.getElementById("phone").value,
         carNumber: carNumber,
-        rentalDate: rentalDateTimeStemp.getTime(),
-        returnDate: returnDateTimeStemp.getTime(),
+        rentalDate: Number(rentalDate),
+        returnDate: Number(returnDate),
       };
       console.log(user.carNumber, user.rentalDate, user.returnDate);
 
-      props.addCostomer(user);
-      props.rentCar(user.carNumber, user.rentalDate, user.returnDate);
-      props.storeDate(user.carNumber, user.rentalDate, user.returnDate);
-      props.history.push("/thank-you-user");
+      addCustomer(user);
+      rentCar(user.carNumber, user.rentalDate, user.returnDate);
+      history.push("/thank-you-user");
     },
-    [props, returnDateTimeStemp, rentalDateTimeStemp]
+    [history, carNumber, rentalDate, returnDate, addCustomer, rentCar]
   );
   return (
     <>
@@ -82,13 +83,9 @@ const Rental = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  return { state };
-};
 const mapDispatchToProps = (dispatch) => ({
   rentCar: (...payload) => dispatch(rent(...payload)),
-  addCostomer: (payload) => dispatch(addCostomer(payload)),
-  storeDate: (...payload) => dispatch(store_date(...payload)),
+  addCustomer: (payload) => dispatch(addCustomer(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Rental);
+export default connect(null, mapDispatchToProps)(Rental);
