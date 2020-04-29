@@ -24,7 +24,7 @@ const authState = {
   password: "123456",
   is_Authanticated: false,
 };
-const AuthReducer = (state = authState, action) => {
+const authReducer = (state = authState, action) => {
   switch (action.type) {
     case ActionType.LOGIN_SUCCESS:
       return {
@@ -40,23 +40,8 @@ const AuthReducer = (state = authState, action) => {
       return state;
   }
 };
-const rentedCarsDate = (state = [], action) => {
-  switch (action.type) {
-    case ActionType.STORE_DATE:
-      return [
-        ...state,
-        {
-          carNumber: action.carNumber,
-          rentedFrom: action.rentedFrom,
-          rentedTill: action.rentedTill,
-        },
-      ];
-    default:
-      return state;
-  }
-};
 
-const rootReducer = (state = storeState, action) => {
+const carsReducer = (state = storeState, action) => {
   switch (action.type) {
     case ActionType.RETURN_CAR:
       return state.map((car) => {
@@ -114,8 +99,7 @@ export const carsInStock = createSelector(carsList, (cars) =>
   cars.filter((cars) => cars.rentedFrom === null && cars.rentedTill === null)
 );
 export default combineReducers({
-  rentedCarsDate,
-  rootReducer,
-  AuthReducer,
-  costumersReducer,
+  cars: carsReducer,
+  auth: authReducer,
+  costumers: costumersReducer,
 });
