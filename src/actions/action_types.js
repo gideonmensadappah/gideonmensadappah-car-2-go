@@ -6,6 +6,8 @@ export const ActionType = {
   RENT_CAR: "RENT_CAR",
   RETURN_CAR: "RETURN_CAR",
   ADD_NEW_CAR: "ADD_NEW_CAR",
+  STORE_DATE: "STORE_DATE",
+  REMOVE_DATE: "REMOVE_DATE",
 };
 
 export const addCostomer = (payload) => ({
@@ -17,9 +19,11 @@ export const removeCustomer = (carNumber) => ({
   id: carNumber,
 });
 
-export const rent = (id) => ({
+export const rent = (id, pickUpDate, returnDate) => ({
   type: ActionType.RENT_CAR,
   id,
+  pickUpDate,
+  returnDate,
 });
 export const returnCar = (id) => ({
   type: ActionType.RETURN_CAR,
@@ -35,4 +39,10 @@ export const login_success = () => ({
 
 export const login_failure = () => ({
   type: ActionType.LOGIN_FAILURE,
+});
+export const store_date = (carNumber, rentedFrom, rentedTill) => ({
+  type: ActionType.STORE_DATE,
+  carNumber,
+  rentedFrom,
+  rentedTill,
 });
