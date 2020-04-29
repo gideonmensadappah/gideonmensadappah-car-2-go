@@ -1,12 +1,15 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
 import { connect } from "react-redux";
 import Home from "../src/components/home";
 import CarRent from "../src/components/car-rent";
-import CarDetail from "../src/components/carDetail";
 import { PaymentPage } from "./components/paymentPage";
 import Rental from "./components/rentalPage";
 import ReturnCar from "./components/returnCar";
@@ -23,16 +26,13 @@ const styles = {
     marginTop: "5em",
   },
 };
-const ProtectedRoute = (props) => {
-  const { is_Authanticated } = props.props;
+const ProtectedRoute = (isAuthenticated) =>
+  isAuthenticated ? (
+    <Route path="/dashboard" component={Dashboard} />
+  ) : (
+    <Redirect to="/" />
+  );
 
-  if (is_Authanticated === true) {
-    return <Route path="/dashboard" component={Dashboard} />;
-  } else if (is_Authanticated === false) {
-    history.replace("/");
-    return <Route path="/" component={Home} />;
-  }
-};
 export const auth = new Auth();
 const handleAuthentication = (props) => {
   if (true) {
