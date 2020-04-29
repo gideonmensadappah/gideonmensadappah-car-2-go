@@ -4,13 +4,13 @@ import { createSelector } from "reselect";
 import { combineReducers } from "redux";
 import { CarList } from "../components/car-list";
 
-const costumersReducer = (state = [], action) => {
+const customersReducer = (state = [], action) => {
   switch (action.type) {
-    case ActionType.ADD_COSTOMER:
+    case ActionType.ADD_CUSTOMER:
       return [...state, action.payload];
-    case ActionType.REMOVE_COSTOMER:
+    case ActionType.REMOVE_CUSTOMER:
       const index = state.findIndex(
-        (costumer) => costumer.carNumber === action.id
+        (customer) => customer.carNumber === action.id
       );
       const newState = [...state.slice(0, index), ...state.slice(index + 1)];
       return newState;
@@ -22,19 +22,19 @@ const costumersReducer = (state = [], action) => {
 const authState = {
   name: "Admin@gmail.com",
   password: "123456",
-  is_Authanticated: false,
+  isAuthenticated: false,
 };
 const authReducer = (state = authState, action) => {
   switch (action.type) {
     case ActionType.LOGIN_SUCCESS:
       return {
         ...state,
-        is_Authanticated: true,
+        isAuthenticated: true,
       };
     case ActionType.LOGIN_FAILURE:
       return {
         ...state,
-        is_Authanticated: false,
+        isAuthenticated: false,
       };
     default:
       return state;
@@ -50,7 +50,7 @@ const carsReducer = (state = storeState, action) => {
         return {
           ...car,
           rentedFrom: null,
-          rentedTill: null,
+          rentedUntil: null,
         };
       });
     case ActionType.RENT_CAR:
@@ -62,7 +62,7 @@ const carsReducer = (state = storeState, action) => {
           {
             ...car,
             rentedFrom: action.pickUpDate,
-            rentedTill: action.returnDate,
+            rentedUntil: action.returnDate,
           }
         );
       });
@@ -82,7 +82,7 @@ export const compared = (carsList, rentedList) => {
       if (e1.carNumber !== e2.carNumber) {
         if (
           e1.rentedFrom !== e2.rentedFrom &&
-          e1.rentedTill !== e2.rentedTill
+          e1.rentedUntil !== e2.rentedUntil
         ) {
           notRentedCars.push(e1);
         }
@@ -93,13 +93,13 @@ export const compared = (carsList, rentedList) => {
 };
 
 export const selectRentedCars = createSelector(carsList, (cars) =>
-  cars.filter((cars) => cars.rentedFrom !== null && cars.rentedTill !== null)
+  cars.filter((cars) => cars.rentedFrom !== null && cars.rentedUntil !== null)
 );
 export const carsInStock = createSelector(carsList, (cars) =>
-  cars.filter((cars) => cars.rentedFrom === null && cars.rentedTill === null)
+  cars.filter((cars) => cars.rentedFrom === null && cars.rentedUntil === null)
 );
 export default combineReducers({
   cars: carsReducer,
   auth: authReducer,
-  costumers: costumersReducer,
+  customers: customersReducer,
 });

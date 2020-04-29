@@ -9,7 +9,7 @@
     "price": 300.9,
     "type": "auto",
     "rentedFrom": null,
-    "rentedTill": null,
+    "rentedUntil": null,
     "kms": "20,000"
   },
   {
@@ -22,7 +22,7 @@
     "price": 219.9,
     "type": "manual",
     "rentedFrom": null,
-    "rentedTill": null,
+    "rentedUntil": null,
     "kms": "170,555"
   },
   {
@@ -35,7 +35,7 @@
     "price": 240.9,
     "type": "auto",
     "rentedFrom": null,
-    "rentedTill": null,
+    "rentedUntil": null,
     "kms": "60,555"
   },
   {
@@ -48,7 +48,7 @@
     "price": 740.9,
     "type": "manual",
     "rentedFrom": null,
-    "rentedTill": null,
+    "rentedUntil": null,
     "kms": "1,555"
   },
   {
@@ -61,7 +61,7 @@
     "price": 440.9,
     "type": "manual",
     "rentedFrom": null,
-    "rentedTill": null,
+    "rentedUntil": null,
     "kms": "30,555"
   }
 ]

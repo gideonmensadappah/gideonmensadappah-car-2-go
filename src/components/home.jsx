@@ -128,7 +128,7 @@ class Home extends Component {
                   type="radio"
                   name="type"
                   id="checkboxAuto"
-                  value="Auto"
+                  value="auto"
                 />
                 <label className="form-check-label" htmlFor="checkBoxLarge">
                   Auto
@@ -141,7 +141,7 @@ class Home extends Component {
                   type="radio"
                   name="type"
                   id="checkBoxManual"
-                  value="Manual"
+                  value="manual"
                 />
                 <label className="form-check-label" htmlFor="checkType">
                   Manual

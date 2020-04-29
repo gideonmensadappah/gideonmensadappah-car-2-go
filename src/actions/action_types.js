@@ -1,6 +1,6 @@
 export const ActionType = {
-  ADD_COSTOMER: "ADD_COSTOMER",
-  REMOVE_COSTOMER: "REMOVE_COSTOMER",
+  ADD_CUSTOMER: "ADD_CUSTOMER",
+  REMOVE_CUSTOMER: "REMOVE_CUSTOMER",
   LOGIN_SUCCESS: "LOGIN_SUCCESS",
   LOGIN_FAILURE: "LOGIN_FAILURE",
   RENT_CAR: "RENT_CAR",
@@ -10,12 +10,12 @@ export const ActionType = {
   REMOVE_DATE: "REMOVE_DATE",
 };
 
-export const addCostomer = (payload) => ({
-  type: ActionType.ADD_COSTOMER,
+export const addCustomer = (payload) => ({
+  type: ActionType.ADD_CUSTOMER,
   payload,
 });
 export const removeCustomer = (carNumber) => ({
-  type: ActionType.REMOVE_COSTOMER,
+  type: ActionType.REMOVE_CUSTOMER,
   id: carNumber,
 });
 

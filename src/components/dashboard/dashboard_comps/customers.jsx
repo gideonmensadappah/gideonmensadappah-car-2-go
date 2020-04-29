@@ -41,7 +41,7 @@ const Customers = ({ customers }) => {
   );
 };
 const mapStateToProps = (state) => {
-  const { costumersReducer } = state;
-  return { customers: costumersReducer };
+  const { customersReducer } = state;
+  return { customers: customersReducer };
 };
 export default connect(mapStateToProps)(Customers);

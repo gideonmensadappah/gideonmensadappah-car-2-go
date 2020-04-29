@@ -6,7 +6,7 @@ import * as css from "../components/returnCar.css";
 const ReturnCarForm = ({
   carToReturn,
   rootReducer,
-  removeCostumer,
+  removeCustomer,
   history,
 }) => {
   const [carNumber, setCarNumber] = useState(null);
@@ -15,10 +15,10 @@ const ReturnCarForm = ({
   const paymentBox = document.getElementById("payment-box");
   const formBox = document.getElementById("form-box");
   const handleClick = useCallback(() => {
-    removeCostumer(parseInt(carNumber));
+    removeCustomer(parseInt(carNumber));
     carToReturn(parseInt(carNumber));
     history.push("/thank-you-user");
-  }, [carNumber, carToReturn, removeCostumer, history]);
+  }, [carNumber, carToReturn, removeCustomer, history]);
 
   const handleSubmitForm = useCallback(
     (event) => {
@@ -119,7 +119,7 @@ const ReturnCarForm = ({
 const mapDispatchToProps = (dispatch) => {
   return {
     carToReturn: (id) => dispatch(returnCar(id)),
-    removeCostumer: (id) => dispatch(removeCustomer(id)),
+    removeCustomer: (id) => dispatch(removeCustomer(id)),
   };
 };
 
