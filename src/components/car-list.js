@@ -1,13 +1,10 @@
 import React from "react";
 
-const Cars = ({ rentedCars, carList, click }) => {
-  if (rentedCars.length > 0) {
-    rentedCars.map((car) => car);
-  } else {
-    return carList.map((car, index) => (
-      <>
-        {" "}
-        <div className="container my-5" key={index}>
+export const CarList = ({ cars, click, pickUpDate, returnDate }) => {
+  return (
+    <>
+      {cars.map((car) => (
+        <div className="container my-5" key={car.number}>
           <div className="row">
             <div className="col-6">
               <div className="card" style={{ width: "30rem" }}>
@@ -29,21 +26,7 @@ const Cars = ({ rentedCars, carList, click }) => {
             </div>
           </div>
         </div>
-      </>
-    ));
-  }
-};
-export const CarList = ({
-  rentedCars,
-  carList,
-  click,
-  pickUpDate,
-  returnDate,
-}) => {
-  // const cars = carList.map((car) => car);
-  const rented = rentedCars.map((car) => car);
-
-  return carList.map((car, index) => (
-    <Cars carList={carList} rentedCars={rented} click={click} />
-  ));
+      ))}
+    </>
+  );
 };
