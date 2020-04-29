@@ -5,7 +5,7 @@ const CustomersList = ({ customers }) => {
     <>
       {customers.map((user, i) => (
         <tr key={i}>
-          <th scope="row">{i}</th>
+          <th scope="row">{i + 1}</th>
           <td>{user.name}</td>
           <td>{user.email}</td>
           <td>{user.phone}</td>
