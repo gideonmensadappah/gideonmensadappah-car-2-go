@@ -40,9 +40,3 @@ export const login_success = () => ({
 export const login_failure = () => ({
   type: ActionType.LOGIN_FAILURE,
 });
-export const store_date = (carNumber, rentedFrom, rentedTill) => ({
-  type: ActionType.STORE_DATE,
-  carNumber,
-  rentedFrom,
-  rentedTill,
-});
