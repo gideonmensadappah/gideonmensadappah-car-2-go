@@ -2,6 +2,7 @@ import { ActionType } from "../actions/action_types";
 import storeState from "../metadata/dummyData.json";
 import { createSelector } from "reselect";
 import { combineReducers } from "redux";
+import { CarList } from "../components/car-list";
 
 const costumersReducer = (state = [], action) => {
   switch (action.type) {
@@ -39,6 +40,21 @@ const AuthReducer = (state = authState, action) => {
       return state;
   }
 };
+const rentedCarsDate = (state = [], action) => {
+  switch (action.type) {
+    case ActionType.STORE_DATE:
+      return [
+        ...state,
+        {
+          carNumber: action.carNumber,
+          rentedFrom: action.rentedFrom,
+          rentedTill: action.rentedTill,
+        },
+      ];
+    default:
+      return state;
+  }
+};
 
 const rootReducer = (state = storeState, action) => {
   switch (action.type) {
@@ -48,17 +64,22 @@ const rootReducer = (state = storeState, action) => {
 
         return {
           ...car,
-          rented: false,
+          rentedFrom: null,
+          rentedTill: null,
         };
       });
     case ActionType.RENT_CAR:
       return state.map((car) => {
         if (car.number !== action.id) return car;
 
-        return {
-          ...car,
-          rented: true,
-        };
+        return Object.assign(
+          {},
+          {
+            ...car,
+            rentedFrom: action.pickUpDate,
+            rentedTill: action.returnDate,
+          }
+        );
       });
 
     case ActionType.ADD_NEW_CAR:
@@ -67,15 +88,33 @@ const rootReducer = (state = storeState, action) => {
       return state;
   }
 };
-const carsList = (storeState) => storeState.rootReducer;
-export const selectRentedCars = createSelector(carsList, (cars) =>
-  cars.filter((cars) => cars.rented === true)
-);
 
+const carsList = (storeState) => storeState.rootReducer;
+export const compared = (carsList, rentedList) => {
+  const notRentedCars = [];
+  carsList.forEach((e1) =>
+    rentedList.forEach((e2) => {
+      if (e1.carNumber !== e2.carNumber) {
+        if (
+          e1.rentedFrom !== e2.rentedFrom &&
+          e1.rentedTill !== e2.rentedTill
+        ) {
+          notRentedCars.push(e1);
+        }
+      }
+    })
+  );
+  return notRentedCars;
+};
+
+export const selectRentedCars = createSelector(carsList, (cars) =>
+  cars.filter((cars) => cars.rentedFrom !== null && cars.rentedTill !== null)
+);
 export const carsInStock = createSelector(carsList, (cars) =>
-  cars.filter((cars) => cars.rented === false)
+  cars.filter((cars) => cars.rentedFrom === null && cars.rentedTill === null)
 );
 export default combineReducers({
+  rentedCarsDate,
   rootReducer,
   AuthReducer,
   costumersReducer,
