@@ -10,6 +10,7 @@ const styles = {
     flexDirection: "column",
   },
   form: {
+    marginTop: "1em",
     width: "10em",
   },
 };
@@ -49,7 +50,6 @@ class Home extends Component {
       state: data,
     });
   }
-
   render() {
     return (
       <div className="container-body">
@@ -71,7 +71,7 @@ class Home extends Component {
                 <input
                   onChange={this.handleChange}
                   id="end"
-                  name="return-date"
+                  name="returnDate"
                   min={this.state.rentalDate}
                   type="date"
                   required
@@ -151,7 +151,7 @@ class Home extends Component {
               <button
                 id="submitButton"
                 type="submit"
-                className="btn btn-primary"
+                className="mb-2 btn btn-primary"
               >
                 Submit
               </button>
