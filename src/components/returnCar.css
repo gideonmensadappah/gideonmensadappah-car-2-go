@@ -1,3 +1,17 @@
+.date-p {
+  font-size: larger;
+  margin-left: 1em;
+}
+.payment-div {
+  display: none;
+}
+
+.checkBox-div {
+  display: flex;
+}
+.center-div {
+  margin-left: auto;
+}
 .container-form {
   border-radius: 5px;
   padding: 5px;
