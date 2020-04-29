@@ -40,7 +40,7 @@ const handleAuthentication = (props) => {
   }
 };
 function App(props) {
-  const { AuthReducer } = props.state;
+  const { isAuthenticated } = props.auth;
   return (
     <Router history={history}>
       <div className="header">
@@ -77,7 +77,7 @@ function App(props) {
               exact
               render={(props) => <LogIn auth={auth} />}
             />
-            <Route exact path="/rent-car/:type/:size" component={CarRent} />
+            <Route exact path="/rent-car" component={CarRent} />
             <Route path="/car2go-payment/:carId" component={PaymentPage} />
             <Route
               path="/callback"
@@ -92,16 +92,15 @@ function App(props) {
               props={props.AuthReducer}
               component={AuthCheck}
             />
-            <ProtectedRoute props={AuthReducer} />
-
-            {/* <Route path="/car-detail/:carNumber" component={CarDetail} /> */}
+            <ProtectedRoute isAuthenticated={isAuthenticated} />
           </Switch>
         </div>
       </div>
     </Router>
   );
 }
-const mapStateToProps = (state) => {
-  return { state };
-};
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
+
 export default connect(mapStateToProps)(App);
