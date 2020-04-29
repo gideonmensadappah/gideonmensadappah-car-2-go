@@ -1,11 +1,7 @@
 import React, { Component } from "react";
-// import data from "../metadata/dummyData.json";
-import { Link } from "react-router-dom";
-import carsCss from "./carList.css";
 import { connect } from "react-redux";
-import returnCar from "./returnCar";
 import { CarList } from "./car-list";
-import { compared } from "../reducers/reducers";
+import queryString from "querystring";
 
 const styles = {
   headerText: {
@@ -16,77 +12,71 @@ class CarRent extends Component {
   constructor() {
     super();
     this.state = {
-      carList: [],
-      isRented: null,
+      cars: [],
     };
   }
   componentDidMount() {
-    this.getDatAndFilter();
-    this.setState({
-      carList: this.carsList,
-    });
+    this.filterCarsByParams();
   }
 
-  getDatAndFilter = () => {
-    const { rootReducer } = this.props.state;
-    this.size = Number(this.props.match.params.size);
-    this.type = this.props.match.params.type.toLowerCase();
-    this.carsList = rootReducer.filter(
-      (cars) => cars.size === this.size && cars.type === this.type
+  getQueryParams = () => {
+    const { location } = this.props;
+    const query = queryString.parse(
+      location.search.slice(1, location.search.length - 1)
     );
+    return query;
+  };
+
+  filterCarsByParams = () => {
+    const { cars, location } = this.props;
+    const query = this.getQueryParams();
+    const { size, carType, rentalDate, returnDate } = query;
+
+    const filteredCars = cars.filter((car) => {
+      const isInStock =
+        !car.rentedFrom ||
+        car.rentedFrom > Number(returnDate) ||
+        car.rentedUntil < Number(rentalDate);
+      return car.size === Number(size) && car.type === carType && isInStock;
+    });
+
+    this.setState({ cars: filteredCars });
   };
 
   //handle click function
-  handleClick = (res) => {
-    const date = {
-      pickUp: this.props.history.location.state.pickUpDate,
-      returnDate: this.props.history.location.state.returnDate,
-    };
-    const data = { ...this.props.history.location.state, ...date, ...res };
+  handleClick = (car) => {
+    const { history } = this.props;
+    const query = this.getQueryParams();
+    const { rentalDate, returnDate } = query;
 
-    this.props.history.push({
-      pathname: `/user/rent`,
-      state: data,
-    });
+    history.push(
+      `/user/rent?carNumber=${car.number}&rentalDate=${rentalDate}&returnDate=${returnDate}`
+    );
   };
   render() {
-    const { carList, isRented } = this.state;
-    const { rentedCarsDate } = this.props.state;
-    console.log(this.props);
-    const pickUp = this.props.history.location.state.rentalDate;
-    const returnDate = this.props.history.location.state.returnDate;
-    const date = new Date(returnDate);
+    const query = this.getQueryParams();
+    const { rentalDate, returnDate } = query;
+    const { cars } = this.state;
+    const rentalDateString = new Date(Number(rentalDate)).toDateString();
+    const returnDateString = new Date(Number(returnDate)).toDateString();
     return (
-      <React.Fragment>
-        {/* {carList.every((car) => car.rented === true) ? (
-          <>
-            <p style={styles.headerText}>
-              {" "}
-              "Sorry No Cars Available On your Requested Date"
-            </p>
-          </>
-        ) : ( */}
-        <>
-          <p
-            style={styles.headerText}
-          >{`Available Cars between: ${pickUp}/ ${date.getUTCDate()}`}</p>
-          <CarList
-            rentedCars={rentedCarsDate}
-            carList={carList}
-            pickUpDate={pickUp}
-            returnDate={returnDate}
-            click={this.handleClick}
-          />
-        </>
-      </React.Fragment>
+      <>
+        <p
+          style={styles.headerText}
+        >{`Available Cars between: ${rentalDateString}/ ${returnDateString}`}</p>
+        <CarList
+          cars={cars}
+          pickUpDate={rentalDate}
+          returnDate={returnDate}
+          click={this.handleClick}
+        />
+      </>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    state: state,
-    compared: compared(state.rootReducer, state.rentedCarsDate),
-  };
-};
+const mapStateToProps = (state) => ({
+  cars: state.cars,
+});
+
 export default connect(mapStateToProps)(CarRent);
