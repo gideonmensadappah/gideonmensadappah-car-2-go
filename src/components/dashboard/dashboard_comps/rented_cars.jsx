@@ -18,6 +18,7 @@ const CarsList = ({ cars }) => {
               <td>{car.price}</td>
               <td>{car.type}</td>
               <td>{car.kms}</td>
+              <td>{car.year}</td>
             </>
           </tr>
         ))}
