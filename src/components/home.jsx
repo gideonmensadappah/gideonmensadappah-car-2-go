@@ -30,26 +30,30 @@ function formatDate(date) {
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      rentalDate: null,
+      returnDate: null,
+      size: null,
+      type: null,
+    };
     this.today = formatDate(Date.now());
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleChange(event) {
+  handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
-  }
 
-  handleSubmit(event) {
+  handleSubmit = (event) => {
     const data = this.state;
-    const { size, type } = this.state;
+    const { rentalDate, returnDate, size, type } = this.state;
     event.preventDefault();
 
-    this.props.history.push({
-      pathname: `/rent-car/${type}/${size}`,
-      state: data,
-    });
-  }
+    const rentalDateTimestamp = new Date(rentalDate).getTime();
+    const returnDateTimestamp = new Date(returnDate).getTime();
+
+    this.props.history.push(
+      `/rent-car?carType=${type}&size=${size}&rentalDate=${rentalDateTimestamp}&returnDate=${returnDateTimestamp}`
+    );
+  };
   render() {
     return (
       <div className="container-body">
