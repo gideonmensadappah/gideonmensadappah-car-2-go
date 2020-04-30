@@ -22,10 +22,12 @@ const CarsList = ({ cars }) => {
     </>
   );
 };
-const InventoryList = ({ cars, history }) => {
+
+const Inventory = ({ carsInStock, history }) => {
   const handleClick = useCallback(() => {
     history.push("/dashboard/new-car");
   }, [history]);
+
   return (
     <>
       <div className="col-8">
@@ -42,7 +44,9 @@ const InventoryList = ({ cars, history }) => {
               <th scope="col">Year</th>
             </tr>
           </thead>
-          <tbody>{cars.length > 0 ? <CarsList cars={cars} /> : null}</tbody>
+          <tbody>
+            {carsInStock.length > 0 ? <CarsList cars={carsInStock} /> : null}
+          </tbody>
         </table>
         <div className="ml-auto">
           <input
@@ -56,14 +60,7 @@ const InventoryList = ({ cars, history }) => {
     </>
   );
 };
-const Inventory = ({ carsInStock, history }) => {
-  return (
-    <>
-      <InventoryList history={history} cars={carsInStock} />
-    </>
-  );
-};
-const mapStateToProps = (state) => {
-  return { carsInStock: carsInStock(state) };
+const mapStateToProps = ({ cars }) => {
+  return { carsInStock: carsInStock(cars) };
 };
 export default connect(mapStateToProps)(Inventory);
