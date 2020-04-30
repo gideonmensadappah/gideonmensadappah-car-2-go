@@ -74,29 +74,13 @@ const carsReducer = (state = storeState, action) => {
   }
 };
 
-const carsList = (storeState) => storeState.rootReducer;
-export const compared = (carsList, rentedList) => {
-  const notRentedCars = [];
-  carsList.forEach((e1) =>
-    rentedList.forEach((e2) => {
-      if (e1.carNumber !== e2.carNumber) {
-        if (
-          e1.rentedFrom !== e2.rentedFrom &&
-          e1.rentedUntil !== e2.rentedUntil
-        ) {
-          notRentedCars.push(e1);
-        }
-      }
-    })
-  );
-  return notRentedCars;
-};
+const carsList = (carsReducer) => carsReducer;
 
 export const selectRentedCars = createSelector(carsList, (cars) =>
-  cars.filter((cars) => cars.rentedFrom !== null && cars.rentedUntil !== null)
+  cars.filter((car) => car.rentedFrom !== null && car.rentedUntil !== null)
 );
 export const carsInStock = createSelector(carsList, (cars) =>
-  cars.filter((cars) => cars.rentedFrom === null && cars.rentedUntil === null)
+  cars.filter((car) => car.rentedFrom === null && car.rentedUntil === null)
 );
 export default combineReducers({
   cars: carsReducer,
