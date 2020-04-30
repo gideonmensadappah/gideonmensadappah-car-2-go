@@ -26,12 +26,14 @@ const styles = {
     marginTop: "5em",
   },
 };
-const ProtectedRoute = (isAuthenticated) =>
-  isAuthenticated ? (
-    <Route path="/dashboard" component={Dashboard} />
-  ) : (
-    <Redirect to="/" />
-  );
+const ProtectedRoute = ({ isAuthenticated }) => {
+  if (isAuthenticated) {
+    return <Route path="/dashboard" component={Dashboard} />;
+  } else {
+    history.replace("/");
+    return <Route path="/" component={Home} />;
+  }
+};
 
 export const auth = new Auth();
 const handleAuthentication = (props) => {
@@ -41,6 +43,7 @@ const handleAuthentication = (props) => {
 };
 function App(props) {
   const { isAuthenticated } = props.auth;
+
   return (
     <Router history={history}>
       <div className="header">
