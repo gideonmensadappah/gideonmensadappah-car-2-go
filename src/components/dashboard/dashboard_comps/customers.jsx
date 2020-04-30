@@ -40,8 +40,7 @@ const Customers = ({ customers }) => {
     </>
   );
 };
-const mapStateToProps = (state) => {
-  const { customersReducer } = state;
-  return { customers: customersReducer };
+const mapStateToProps = ({ customers }) => {
+  return { customers };
 };
 export default connect(mapStateToProps)(Customers);
