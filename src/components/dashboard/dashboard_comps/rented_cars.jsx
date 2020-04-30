@@ -26,7 +26,8 @@ const CarsList = ({ cars }) => {
     </>
   );
 };
-const RentedCarsList = ({ cars }) => {
+
+const RentedCars = ({ rentedCars }) => {
   return (
     <>
       <div className="col-8">
@@ -44,19 +45,14 @@ const RentedCarsList = ({ cars }) => {
             </tr>
           </thead>
 
-          {cars.length > 0 ? <CarsList cars={cars} /> : null}
+          {rentedCars.length > 0 ? <CarsList cars={rentedCars} /> : null}
         </table>
       </div>
     </>
   );
 };
 
-const RentedCars = ({ rentedCars }) => {
-  console.log(rentedCars);
-  return <RentedCarsList cars={rentedCars} />;
-};
-
-const mapStateToProps = (state) => {
-  return { rentedCars: selectRentedCars(state) };
+const mapStateToProps = ({ cars }) => {
+  return { rentedCars: selectRentedCars(cars) };
 };
 export default connect(mapStateToProps)(RentedCars);
