@@ -9,7 +9,10 @@ import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/reducers";
 import { rented, returnCar, setRentedCar } from "./actions/action_types";
-const store = createStore(rootReducer);
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
