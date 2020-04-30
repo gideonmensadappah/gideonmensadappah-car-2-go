@@ -5,7 +5,7 @@ import queryString from "querystring";
 
 const styles = {
   headerText: {
-    fontSize: "2em",
+    fontSize: "2rem",
   },
 };
 class CarRent extends Component {
@@ -13,6 +13,7 @@ class CarRent extends Component {
     super();
     this.state = {
       cars: [],
+      title: "",
     };
   }
   componentDidMount() {
@@ -22,7 +23,7 @@ class CarRent extends Component {
   getQueryParams = () => {
     const { location } = this.props;
     const query = queryString.parse(
-      location.search.slice(1, location.search.length - 1)
+      location.search.slice(1, location.search.length)
     );
     return query;
   };
@@ -37,10 +38,25 @@ class CarRent extends Component {
         !car.rentedFrom ||
         car.rentedFrom > Number(returnDate) ||
         car.rentedUntil < Number(rentalDate);
+
       return car.size === Number(size) && car.type === carType && isInStock;
     });
 
-    this.setState({ cars: filteredCars });
+    const rentalDateString = new Date(Number(rentalDate)).toDateString();
+    const returnDateString = new Date(Number(returnDate)).toDateString();
+
+    if (filteredCars.length > 0) {
+      this.setState({
+        cars: filteredCars,
+        title: `Available Cars Between: ${rentalDateString} - ${returnDateString}`,
+      });
+      console.log(filteredCars);
+    } else {
+      console.log(filteredCars);
+      this.setState({
+        title: `No Cars Available Between: ${rentalDateString}/ ${returnDateString}`,
+      });
+    }
   };
 
   //handle click function
@@ -53,23 +69,40 @@ class CarRent extends Component {
       `/user/rent?carNumber=${car.number}&rentalDate=${rentalDate}&returnDate=${returnDate}`
     );
   };
+  noCarsRedirectToHome = (props) => {
+    const { history } = this.props;
+    history.push("/");
+  };
   render() {
     const query = this.getQueryParams();
     const { rentalDate, returnDate } = query;
-    const { cars } = this.state;
-    const rentalDateString = new Date(Number(rentalDate)).toDateString();
-    const returnDateString = new Date(Number(returnDate)).toDateString();
+    const { cars, title } = this.state;
+
     return (
       <>
-        <p
-          style={styles.headerText}
-        >{`Available Cars between: ${rentalDateString}/ ${returnDateString}`}</p>
-        <CarList
-          cars={cars}
-          pickUpDate={rentalDate}
-          returnDate={returnDate}
-          click={this.handleClick}
-        />
+        {cars.length > 0 ? (
+          <>
+            <h5 style={styles.headerText}>{title}</h5>
+            <CarList
+              cars={cars}
+              pickUpDate={rentalDate}
+              returnDate={returnDate}
+              click={this.handleClick}
+            />
+          </>
+        ) : (
+          <div class="jumbotron">
+            <h1 class="display-4">Hello, User!</h1>
+            <p class="lead">We Are Out Of Cars On This Date</p>
+            <hr class="my-4" />
+            <input
+              class="btn btn-primary btn-lg"
+              type="button"
+              value="   Back To Home Page"
+              onClick={this.noCarsRedirectToHome}
+            />
+          </div>
+        )}
       </>
     );
   }
