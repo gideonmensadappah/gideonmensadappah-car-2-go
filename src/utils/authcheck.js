@@ -14,9 +14,8 @@ class AuthCheck extends Component {
     if (this.props.location.state.userName === this.user.name) {
       if (this.props.location.state.password === this.user.password) {
         this.props.login_success();
-        setTimeout(() => {
-          this.props.history.push("/dashboard");
-        }, 1000);
+
+        this.props.history.push("/dashboard");
       }
     } else {
       this.props.login_failure();
@@ -28,7 +27,7 @@ class AuthCheck extends Component {
   }
 }
 const mapStateToProps = (state) => {
-  return { reducerState: state };
+  return { reducerState: state, ReducerAuth: state.auth };
 };
 const mapDispatchToProps = (dispatch) => {
   return {
