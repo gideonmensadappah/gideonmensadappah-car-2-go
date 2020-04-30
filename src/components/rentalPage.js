@@ -8,8 +8,7 @@ import queryString from "querystring";
 const Rental = (props) => {
   const { addCustomer, rentCar, history, location } = props;
   const query = useMemo(
-    () =>
-      queryString.parse(location.search.slice(1, location.search.length - 1)),
+    () => queryString.parse(location.search.slice(1, location.search.length)),
     [location]
   );
   const { carNumber, rentalDate, returnDate } = query;
@@ -23,7 +22,7 @@ const Rental = (props) => {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         phone: document.getElementById("phone").value,
-        carNumber: carNumber,
+        carNumber: Number(carNumber),
         rentalDate: Number(rentalDate),
         returnDate: Number(returnDate),
       };
