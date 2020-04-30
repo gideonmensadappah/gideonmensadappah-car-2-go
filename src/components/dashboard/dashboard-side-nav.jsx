@@ -23,10 +23,7 @@ const styles = {
       "auto" /* Scrollable contents if viewport is shorter than content. */,
   },
 };
-const SideNav = ({ logOut }) => {
-  const handleLogOut = useCallback(() => {
-    logOut();
-  }, [logOut]);
+const SideNav = ({ handleLogOut }) => {
   return (
     <>
       <div className="container-fluid">
@@ -36,7 +33,7 @@ const SideNav = ({ logOut }) => {
             className="col-md-2 d-none d-md-block bg-light"
             style={styles.sidebar}
           >
-            <div className="sidebar-sticky" style={styles.sidebarSsticky}>
+            <div className="sidebar-sticky mt-4" style={styles.sidebarSsticky}>
               <ul className="nav flex-column">
                 <li className="nav-item">
                   <Link className="nav-link active" to="/dashboard">
@@ -62,12 +59,7 @@ const SideNav = ({ logOut }) => {
                     Customers
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/report">
-                    <span data-feather="bar-chart-2"></span>
-                    Reports
-                  </Link>
-                </li>
+
                 <li className="nav-item">
                   <button
                     className="navbar-toggler"
@@ -79,7 +71,7 @@ const SideNav = ({ logOut }) => {
                     aria-label="Toggle navigation"
                     onClick={handleLogOut}
                   >
-                    <span className="navbar-toggler-icon">logOut</span>
+                    <span className="navbar-toggler-icon"> logOut</span>
                   </button>
                 </li>
               </ul>
@@ -90,9 +82,5 @@ const SideNav = ({ logOut }) => {
     </>
   );
 };
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logOut: () => dispatch(login_failure()),
-  };
-};
-export default connect(null, mapDispatchToProps)(withRouter(SideNav));
+
+export default withRouter(SideNav);
