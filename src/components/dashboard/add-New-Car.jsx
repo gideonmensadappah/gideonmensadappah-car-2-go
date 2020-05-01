@@ -35,8 +35,6 @@ class AddNewCar extends Component {
     img.onload = () => URL.revokeObjectURL(this.src);
     const div = document.getElementById("imageStore");
     div.appendChild(img);
-    // end File
-    //get year
 
     const dateObj = new Date(this.state.year);
     const obj = {
@@ -48,7 +46,8 @@ class AddNewCar extends Component {
       year: dateObj.getFullYear(),
       price: parseInt(this.state.price),
       type: document.getElementById("type").value,
-      rented: false,
+      rentedFrom: null,
+      rentedUntil: null,
       kms: this.state.kms,
     };
     console.log(obj);
@@ -94,7 +93,7 @@ class AddNewCar extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="price"> price</label>
+                  <label htmlFor="price">price Per Day</label>
                   <input
                     onChange={this.handleInputChange}
                     type="text"
