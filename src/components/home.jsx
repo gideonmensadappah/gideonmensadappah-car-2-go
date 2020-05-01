@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import home from "./home.css";
 import { connect } from "react-redux";
+
 const styles = {
   checkbox: {
     margin: "5px",
