@@ -6,7 +6,7 @@ const CarsList = ({ cars }) => {
   return (
     <>
       {cars.map((car, i) => (
-        <tr key={i}>
+        <tr className="table table-dark" key={i}>
           <th scope="row">
             <img alt="" src={car.image} style={styles.image} />
           </th>
@@ -44,7 +44,7 @@ const Inventory = ({ carsInStock, history }) => {
               <th scope="col">Year</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="table table-dark">
             {carsInStock.length > 0 ? <CarsList cars={carsInStock} /> : null}
           </tbody>
         </table>
