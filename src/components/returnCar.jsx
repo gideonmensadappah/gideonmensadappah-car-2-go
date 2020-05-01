@@ -3,58 +3,104 @@ import { connect } from "react-redux";
 import { returnCar, removeCustomer } from "../actions/action_types";
 import * as css from "../components/returnCar.css";
 
+const styles = {
+  fine: {
+    color: "red",
+  },
+};
+
 const ReturnCarForm = ({
   carToReturn,
-  rootReducer,
+  cars,
   removeCustomer,
+  customers,
   history,
 }) => {
   const [carNumber, setCarNumber] = useState(null);
   const [fuel, setFuel] = useState("Empty");
   const [total, setTotal] = useState(0);
+  const [fuelPrice, setFuelPrice] = useState(30.99);
   const paymentBox = document.getElementById("payment-box");
   const formBox = document.getElementById("form-box");
+  const [userPhoneNumber, setUserPhoneNumber] = useState("");
+
   const handleClick = useCallback(() => {
     removeCustomer(parseInt(carNumber));
     carToReturn(parseInt(carNumber));
     history.push("/thank-you-user");
   }, [carNumber, carToReturn, removeCustomer, history]);
 
+  const calculateTotalPrice = useCallback((user) => {
+    const rentalDate = new Date(user.rentalDate);
+    const returnDate = new Date(user.returnDate);
+    const price = user.price;
+    const res = Math.abs(rentalDate - returnDate) / 1000;
+    let days = Math.floor(res / 86400);
+
+    if (days === 0) {
+      days = days + 1;
+    }
+
+    const totalAfterCalculation = price * days;
+
+    setTotal(totalAfterCalculation);
+  }, []);
+
   const handleSubmitForm = useCallback(
     (event) => {
       event.preventDefault();
 
       if (!carNumber) {
-        alert("Car Number Is Not Valid! (1)");
+        alert("Car Number Is Not Valid!");
       } else {
-        const car = rootReducer.filter(
-          (car) => car.number === parseInt(carNumber)
+        const customer = customers.filter(
+          (customer) =>
+            customer.carNumber === parseInt(carNumber) &&
+            customer.phone === userPhoneNumber
         );
-        if (car.length > 0) {
-          if (fuel !== "Empty") {
-            console.log(car);
-            setTotal(car[0].price);
-          } else if (fuel !== "Full") {
-            console.log(car);
-            setTotal(car[0].price + 30);
-          }
-          paymentBox.classList.remove("payment-div");
-          formBox.classList.add("payment-div");
+
+        if (customer.length === 0) {
+          alert("we have no such car rented!");
         } else {
-          alert("Car Number is not found! (2)");
+          const user = customer[0];
+
+          calculateTotalPrice(user);
+          if (customer.length > 0) {
+            if (fuel === "Full") {
+              setFuelPrice(0);
+            } else if (fuel === "Empty") {
+              const penaltyDueEmptyFuel = 30.99;
+              setFuelPrice(penaltyDueEmptyFuel);
+            }
+            paymentBox.classList.remove("payment-div");
+            formBox.classList.add("payment-div");
+          } else {
+            alert("Car Number is not found!");
+          }
         }
       }
     },
-    [carNumber, formBox, paymentBox, fuel, rootReducer]
+    [
+      carNumber,
+      customers,
+      userPhoneNumber,
+      formBox,
+      calculateTotalPrice,
+      paymentBox,
+      fuel,
+    ]
   );
 
-  const handleInputChange = useCallback(
-    (event) => setCarNumber(event.target.value),
-    []
-  );
+  const handleInputChangeCarNumber = useCallback((event) => {
+    setCarNumber(event.target.value);
+  }, []);
 
   const handleFuelChange = useCallback(
     (event) => setFuel(event.target.value),
+    []
+  );
+  const handleInputChangeName = useCallback(
+    (event) => setUserPhoneNumber(event.target.value),
     []
   );
 
@@ -63,8 +109,14 @@ const ReturnCarForm = ({
       <div className="center-div">
         <div className="container-form">
           <form onSubmit={handleSubmitForm} id="form-box">
-            <label>car number:</label> <br />
-            <input onChange={handleInputChange} placeholder="number" />
+            <label>Phone Number:</label> <br />
+            <input
+              onChange={handleInputChangeName}
+              placeholder="Phone Number "
+            />
+            <br />
+            <label>Car Number:</label> <br />
+            <input onChange={handleInputChangeCarNumber} placeholder="number" />
             <div className="checkBox-div">
               <div className="form-group">
                 <div className="form-check mt-3">
@@ -102,7 +154,15 @@ const ReturnCarForm = ({
             />
           </form>
           <div id="payment-box" className="payment-div">
-            <span className="total-price ">The Price is: {total}</span>
+            <p>
+              {fuelPrice !== 0 ? (
+                <span style={styles.fine}>
+                  Fine! Due Not Filling The Fuel: {fuelPrice}₪
+                </span>
+              ) : null}{" "}
+              <br />
+              <span className="total-price ">The Price is: {total}₪</span>
+            </p>
             <input
               className="payment btn btn-primary ml-2"
               type="button"
@@ -123,7 +183,7 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const mapStateToProps = ({ rootReducer }) => {
-  return { rootReducer };
+const mapStateToProps = ({ cars, customers }) => {
+  return { customers, cars };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(ReturnCarForm);
