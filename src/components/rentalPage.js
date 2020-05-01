@@ -11,7 +11,7 @@ const Rental = (props) => {
     () => queryString.parse(location.search.slice(1, location.search.length)),
     [location]
   );
-  const { carNumber, rentalDate, returnDate } = query;
+  const { carNumber, rentalDate, returnDate, p } = query;
 
   const handleSubmitForm = useCallback(
     (event) => {
@@ -25,14 +25,14 @@ const Rental = (props) => {
         carNumber: Number(carNumber),
         rentalDate: Number(rentalDate),
         returnDate: Number(returnDate),
+        price: p,
       };
-      console.log(user.carNumber, user.rentalDate, user.returnDate);
 
       addCustomer(user);
       rentCar(user.carNumber, user.rentalDate, user.returnDate);
       history.push("/thank-you-user");
     },
-    [history, carNumber, rentalDate, returnDate, addCustomer, rentCar]
+    [history, carNumber, rentalDate, p, returnDate, addCustomer, rentCar]
   );
   return (
     <>
