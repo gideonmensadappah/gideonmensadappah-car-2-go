@@ -4,7 +4,7 @@ const CustomersList = ({ customers }) => {
   return (
     <>
       {customers.map((user, i) => (
-        <tr key={i}>
+        <tr className="table table-dark" key={i}>
           <th scope="row">{i + 1}</th>
           <td>{user.name}</td>
           <td>{user.email}</td>
