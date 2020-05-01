@@ -11,7 +11,7 @@ export const CarList = ({ cars, click, pickUpDate, returnDate }) => {
                 <img src={car.image} className="card-img-top" alt="..." />
                 <div className="card-body">
                   <h5 className="card-title">{car.maker + " " + car.name}</h5>
-                  <h6>Price: {car.price}</h6>
+                  <h6>Price: {car.price} (Per Day)</h6>
                   <div className="car-btn">
                     <input
                       type="button"
