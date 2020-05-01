@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { CarList } from "./car-list";
 import queryString from "querystring";
-
+import { FilterCars } from "./FilterCars";
 const styles = {
   headerText: {
     fontSize: "2rem",
@@ -50,23 +50,28 @@ class CarRent extends Component {
         cars: filteredCars,
         title: `Available Cars Between: ${rentalDateString} - ${returnDateString}`,
       });
-      console.log(filteredCars);
     } else {
-      console.log(filteredCars);
       this.setState({
         title: `No Cars Available Between: ${rentalDateString}/ ${returnDateString}`,
       });
     }
   };
 
+  sortFunc = (cars) => {
+    this.setState({
+      cars: cars,
+    });
+  };
+
   //handle click function
   handleClick = (car) => {
     const { history } = this.props;
     const query = this.getQueryParams();
+
     const { rentalDate, returnDate } = query;
 
     history.push(
-      `/user/rent?carNumber=${car.number}&rentalDate=${rentalDate}&returnDate=${returnDate}`
+      `/user/rent?carNumber=${car.number}&rentalDate=${rentalDate}&returnDate=${returnDate}&p=${car.price}`
     );
   };
   noCarsRedirectToHome = (props) => {
@@ -83,6 +88,7 @@ class CarRent extends Component {
         {cars.length > 0 ? (
           <>
             <h5 style={styles.headerText}>{title}</h5>
+            <FilterCars sortFunc={this.sortFunc} car={cars} />
             <CarList
               cars={cars}
               pickUpDate={rentalDate}
@@ -91,12 +97,12 @@ class CarRent extends Component {
             />
           </>
         ) : (
-          <div class="jumbotron">
-            <h1 class="display-4">Hello, User!</h1>
-            <p class="lead">We Are Out Of Cars On This Date</p>
-            <hr class="my-4" />
+          <div className="jumbotron">
+            <h1 className="display-4">Hello, User!</h1>
+            <p className="lead">We Are Out Of Cars On This Date</p>
+            <hr className="my-4" />
             <input
-              class="btn btn-primary btn-lg"
+              className="btn btn-primary btn-lg"
               type="button"
               value="   Back To Home Page"
               onClick={this.noCarsRedirectToHome}
