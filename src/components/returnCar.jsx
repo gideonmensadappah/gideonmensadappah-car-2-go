@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback, useState } from "react";
 import { connect } from "react-redux";
-import { returnCar, removeCustomer } from "../actions/action_types";
+import { removeCustomer } from "../actions/action_types";
+import { returnCar } from "../reducers/rentals";
 import * as css from "../components/returnCar.css";
 
 const styles = {
@@ -23,12 +24,17 @@ const ReturnCarForm = ({
   const paymentBox = document.getElementById("payment-box");
   const formBox = document.getElementById("form-box");
   const [userPhoneNumber, setUserPhoneNumber] = useState("");
+  const [user, setUser] = useState({
+    user: {},
+  });
 
   const handleClick = useCallback(() => {
     removeCustomer(parseInt(carNumber));
-    carToReturn(parseInt(carNumber));
+    const { id } = user.user;
+    console.log(id);
+    carToReturn(id);
     history.push("/thank-you-user");
-  }, [carNumber, carToReturn, removeCustomer, history]);
+  }, [carNumber, carToReturn, user, removeCustomer, history]);
 
   const calculateTotalPrice = useCallback((user) => {
     const startDate = new Date(user.startDate);
@@ -63,7 +69,7 @@ const ReturnCarForm = ({
           alert("we have no such car rented!");
         } else {
           const user = customer[0];
-
+          setUser({ user: user });
           calculateTotalPrice(user);
           if (customer.length > 0) {
             if (fuel === "Full") {
