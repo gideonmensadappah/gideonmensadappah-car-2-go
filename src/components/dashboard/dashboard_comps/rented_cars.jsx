@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { selectRentedCars } from "../../../reducers/reducers";
+import { selectRentedCars } from "../../../reducers/rentals";
 const styles = { image: { width: "3em" } };
 const CarsList = ({ cars }) => {
   return (
@@ -27,7 +27,8 @@ const CarsList = ({ cars }) => {
   );
 };
 
-const RentedCars = ({ rentedCars }) => {
+const RentedCars = ({ rentals }) => {
+  console.log(rentals);
   return (
     <>
       <div className="col-8">
@@ -45,14 +46,14 @@ const RentedCars = ({ rentedCars }) => {
             </tr>
           </thead>
 
-          {rentedCars.length > 0 ? <CarsList cars={rentedCars} /> : null}
+          {/* {rentedCars.length > 0 ? <CarsList cars={rentedCars} /> : null} */}
         </table>
       </div>
     </>
   );
 };
 
-const mapStateToProps = ({ cars }) => {
-  return { rentedCars: selectRentedCars(cars) };
+const mapStateToProps = ({ rentals }) => {
+  return { rentedCars: rentals };
 };
-export default connect(mapStateToProps)(RentedCars);
+export default connect(null, mapStateToProps)(RentedCars);
