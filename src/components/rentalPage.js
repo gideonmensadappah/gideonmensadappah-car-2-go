@@ -1,38 +1,56 @@
 import React from "react";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { connect } from "react-redux";
-import { rent, addCustomer } from "../actions/action_types";
+import { addCustomer } from "../actions/action_types";
+import { rentCar } from "../reducers/rentals";
 import { useMemo } from "react";
 import queryString from "querystring";
+import { v4 as uuidv4 } from "uuid";
 
 const Rental = (props) => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState(0);
+
   const { addCustomer, rentCar, history, location } = props;
   const query = useMemo(
     () => queryString.parse(location.search.slice(1, location.search.length)),
     [location]
   );
-  const { carNumber, rentalDate, returnDate, p } = query;
-
+  const { carNumber, startDate, endDate } = query;
+  const handleOnChangeName = useCallback(
+    (event) => setName(event.target.value),
+    []
+  );
+  const handleOnChangeEmail = useCallback(
+    (event) => setEmail(event.target.value),
+    []
+  );
+  const handleOnChangePhone = useCallback(
+    (event) => setPhone(event.target.value),
+    []
+  );
   const handleSubmitForm = useCallback(
     (event) => {
       event.preventDefault();
 
-      const user = {
-        //CHANGE TYPE FROM STRAIGHT MANIPULATION TO REACT WAY
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        carNumber: Number(carNumber),
-        rentalDate: Number(rentalDate),
-        returnDate: Number(returnDate),
-        price: p,
-      };
+      const userId = uuidv4();
 
-      addCustomer(user);
-      rentCar(user.carNumber, user.rentalDate, user.returnDate);
+      addCustomer(userId, name, email, phone);
+      rentCar(userId, Number(carNumber), Number(startDate), Number(endDate));
       history.push("/thank-you-user");
     },
-    [history, carNumber, rentalDate, p, returnDate, addCustomer, rentCar]
+    [
+      name,
+      email,
+      phone,
+      history,
+      carNumber,
+      startDate,
+      endDate,
+      addCustomer,
+      rentCar,
+    ]
   );
   return (
     <>
@@ -45,6 +63,7 @@ const Rental = (props) => {
                 <input
                   type="text"
                   id="name"
+                  onChange={handleOnChangeName}
                   name="name"
                   className="form-control"
                 />
@@ -55,6 +74,7 @@ const Rental = (props) => {
                   type="email"
                   name="email"
                   id="email"
+                  onChange={handleOnChangeEmail}
                   className="form-control"
                   aria-describedby="emailHelp"
                 />
@@ -66,6 +86,7 @@ const Rental = (props) => {
                 <label htmlFor="phone"> Phone</label>
                 <input
                   type="tel"
+                  onChange={handleOnChangePhone}
                   name="phone"
                   id="phone"
                   className="form-control"
@@ -83,7 +104,8 @@ const Rental = (props) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  rentCar: (...payload) => dispatch(rent(...payload)),
+  rentCar: (userId, carId, startDate, endDate) =>
+    dispatch(rentCar(userId, carId, startDate, endDate)),
   addCustomer: (payload) => dispatch(addCustomer(payload)),
 });
 
