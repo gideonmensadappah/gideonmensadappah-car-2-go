@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { carsInStock } from "../../../reducers/reducers";
+// import { carsInStock } from "../../../reducers/reducers";
 import { connect } from "react-redux";
 const styles = { image: { width: "3em" } };
 const CarsList = ({ cars }) => {
@@ -61,6 +61,6 @@ const Inventory = ({ carsInStock, history }) => {
   );
 };
 const mapStateToProps = ({ cars }) => {
-  return { carsInStock: carsInStock(cars) };
+  return { carsInStock: cars };
 };
 export default connect(mapStateToProps)(Inventory);
