@@ -8,6 +8,7 @@ const styles = {
     fontSize: "2rem",
   },
 };
+
 class CarRent extends Component {
   constructor() {
     super();
@@ -29,30 +30,44 @@ class CarRent extends Component {
   };
 
   filterCarsByParams = () => {
-    const { cars, location } = this.props;
+    const { cars, location, rentals } = this.props;
+
     const query = this.getQueryParams();
-    const { size, carType, rentalDate, returnDate } = query;
+    const { size, carType, startDate, endDate } = query;
+
+    const checkIsRented = (car, startDate, endDate) => {
+      let flag = true;
+      rentals.forEach((rental) => {
+        if (rental.carId === car.number) {
+          const isStartDateTaken =
+            startDate >= rental.startDate && startDate <= rental.endDate;
+          const isEndDateTaken =
+            endDate >= rental.startDate && endDate <= rental.endDate;
+
+          if (isStartDateTaken || isEndDateTaken) {
+            flag = false;
+          }
+        }
+      });
+      return flag;
+    };
 
     const filteredCars = cars.filter((car) => {
-      const isInStock =
-        !car.rentedFrom ||
-        car.rentedFrom > Number(returnDate) ||
-        car.rentedUntil < Number(rentalDate);
+      const isInStock = checkIsRented(car, Number(startDate), Number(endDate));
 
       return car.size === Number(size) && car.type === carType && isInStock;
     });
-
-    const rentalDateString = new Date(Number(rentalDate)).toDateString();
-    const returnDateString = new Date(Number(returnDate)).toDateString();
+    const startDateString = new Date(Number(startDate)).toDateString();
+    const endDateString = new Date(Number(endDate)).toDateString();
 
     if (filteredCars.length > 0) {
       this.setState({
         cars: filteredCars,
-        title: `Available Cars Between: ${rentalDateString} - ${returnDateString}`,
+        title: `Available Cars Between: ${startDateString} - ${endDateString}`,
       });
     } else {
       this.setState({
-        title: `No Cars Available Between: ${rentalDateString}/ ${returnDateString}`,
+        title: `No Cars Available Between: ${startDateString}/ ${endDateString}`,
       });
     }
   };
@@ -63,15 +78,14 @@ class CarRent extends Component {
     });
   };
 
-  //handle click function
   handleClick = (car) => {
     const { history } = this.props;
     const query = this.getQueryParams();
 
-    const { rentalDate, returnDate } = query;
+    const { startDate, endDate } = query;
 
     history.push(
-      `/user/rent?carNumber=${car.number}&rentalDate=${rentalDate}&returnDate=${returnDate}&p=${car.price}`
+      `/user/rent?carNumber=${car.number}&startDate=${startDate}&endDate=${endDate}&p=${car.price}`
     );
   };
   noCarsRedirectToHome = (props) => {
@@ -80,7 +94,7 @@ class CarRent extends Component {
   };
   render() {
     const query = this.getQueryParams();
-    const { rentalDate, returnDate } = query;
+    const { startDate, endDate } = query;
     const { cars, title } = this.state;
 
     return (
@@ -91,8 +105,8 @@ class CarRent extends Component {
             <FilterCars sortFunc={this.sortFunc} car={cars} />
             <CarList
               cars={cars}
-              pickUpDate={rentalDate}
-              returnDate={returnDate}
+              pickUpDate={startDate}
+              endDate={endDate}
               click={this.handleClick}
             />
           </>
@@ -116,6 +130,7 @@ class CarRent extends Component {
 
 const mapStateToProps = (state) => ({
   cars: state.cars,
+  rentals: state.rentals,
 });
 
 export default connect(mapStateToProps)(CarRent);
