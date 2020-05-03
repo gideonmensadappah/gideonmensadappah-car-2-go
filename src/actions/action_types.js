@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from "uuid";
 export const ActionType = {
   ADD_CUSTOMER: "ADD_CUSTOMER",
   REMOVE_CUSTOMER: "REMOVE_CUSTOMER",
@@ -10,20 +11,29 @@ export const ActionType = {
   REMOVE_DATE: "REMOVE_DATE",
 };
 
-export const addCustomer = (payload) => ({
-  type: ActionType.ADD_CUSTOMER,
+export const storeDate = (payload) => ({
+  type: ActionType.STORE_DATE,
   payload,
+});
+export const addCustomer = (id, name, email, phone) => ({
+  type: ActionType.ADD_CUSTOMER,
+  payload: {
+    id,
+    name,
+    email,
+    phone,
+  },
 });
 export const removeCustomer = (carNumber) => ({
   type: ActionType.REMOVE_CUSTOMER,
   id: carNumber,
 });
 
-export const rent = (id, pickUpDate, returnDate) => ({
+export const rent = (id, pickUpDate, endDate) => ({
   type: ActionType.RENT_CAR,
   id,
   pickUpDate,
-  returnDate,
+  endDate,
 });
 export const returnCar = (id) => ({
   type: ActionType.RETURN_CAR,
