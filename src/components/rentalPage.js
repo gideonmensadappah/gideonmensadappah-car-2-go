@@ -13,11 +13,12 @@ const Rental = (props) => {
   const [phone, setPhone] = useState(0);
 
   const { addCustomer, rentCar, history, location } = props;
+
   const query = useMemo(
     () => queryString.parse(location.search.slice(1, location.search.length)),
     [location]
   );
-  const { carNumber, startDate, endDate } = query;
+  const { carNumber, startDate, endDate, p } = query;
   const handleOnChangeName = useCallback(
     (event) => setName(event.target.value),
     []
@@ -36,7 +37,16 @@ const Rental = (props) => {
 
       const userId = uuidv4();
 
-      addCustomer(userId, name, email, phone);
+      addCustomer(
+        userId,
+        name,
+        email,
+        phone,
+        Number(carNumber),
+        Number(startDate),
+        Number(endDate),
+        p
+      );
       rentCar(userId, Number(carNumber), Number(startDate), Number(endDate));
       history.push("/thank-you-user");
     },
@@ -49,6 +59,7 @@ const Rental = (props) => {
       startDate,
       endDate,
       addCustomer,
+      p,
       rentCar,
     ]
   );
@@ -106,7 +117,10 @@ const Rental = (props) => {
 const mapDispatchToProps = (dispatch) => ({
   rentCar: (userId, carId, startDate, endDate) =>
     dispatch(rentCar(userId, carId, startDate, endDate)),
-  addCustomer: (payload) => dispatch(addCustomer(payload)),
+  addCustomer: (id, name, email, phone, carNumber, startDate, endDate, p) =>
+    dispatch(
+      addCustomer(id, name, email, phone, carNumber, startDate, endDate, p)
+    ),
 });
 
 export default connect(null, mapDispatchToProps)(Rental);
