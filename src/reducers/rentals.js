@@ -1,5 +1,6 @@
 import { ActionType } from "../actions/action_types";
 import { v4 as uuidv4 } from "uuid";
+import { createSelector } from "reselect";
 export const rentCar = (userId, carId, startDate, endDate) => ({
   type: ActionType.RENT_CAR,
   payload: {
@@ -20,9 +21,16 @@ const rentalsReducer = (state = [], action) => {
     case ActionType.RENT_CAR:
       return [...state, action.payload];
     case ActionType.RETURN_CAR:
-      return state.filter((rental) => rental.id !== action.id);
+      return state.filter((rental) => rental.userId !== action.id);
     default:
       return state;
   }
 };
+
+const getRentedCarsState = (rentalsReducer) => rentalsReducer;
+export const selectRentedCars = createSelector(getRentedCarsState, (cars) => {
+  console.log(cars);
+  cars.filter((car) => car);
+});
+
 export default rentalsReducer;
