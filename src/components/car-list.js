@@ -1,6 +1,6 @@
 import React from "react";
 
-export const CarList = ({ cars, click, pickUpDate, returnDate }) => {
+export const CarList = ({ cars, click, pickUpDate, endDate }) => {
   return (
     <>
       {cars.map((car) => (
