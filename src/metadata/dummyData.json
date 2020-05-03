@@ -8,8 +8,6 @@
     "year": "2019",
     "price": 300.9,
     "type": "auto",
-    "rentedFrom": null,
-    "rentedUntil": null,
     "kms": "20,000"
   },
   {
@@ -21,8 +19,6 @@
     "year": "2012",
     "price": 219.9,
     "type": "manual",
-    "rentedFrom": null,
-    "rentedUntil": null,
     "kms": "170,555"
   },
   {
@@ -34,8 +30,6 @@
     "year": "2014",
     "price": 240.9,
     "type": "auto",
-    "rentedFrom": null,
-    "rentedUntil": null,
     "kms": "60,555"
   },
   {
@@ -47,8 +41,6 @@
     "year": "2019",
     "price": 740.9,
     "type": "manual",
-    "rentedFrom": null,
-    "rentedUntil": null,
     "kms": "1,555"
   },
   {
@@ -60,8 +52,6 @@
     "year": "2014",
     "price": 440.9,
     "type": "manual",
-    "rentedFrom": null,
-    "rentedUntil": null,
     "kms": "30,555"
   }
 ]
