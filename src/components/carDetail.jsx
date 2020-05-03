@@ -24,7 +24,7 @@ class CarDetail extends Component {
     e.preventDefault();
     const date = {
       pickUp: this.props.location.state.pickUp,
-      returnDate: this.props.location.state.returnDate,
+      endDate: this.props.location.state.endDate,
     };
     this.props.history.push({
       pathname: `/car2go-payment/${data.number}`,

@@ -31,10 +31,10 @@ const ReturnCarForm = ({
   }, [carNumber, carToReturn, removeCustomer, history]);
 
   const calculateTotalPrice = useCallback((user) => {
-    const rentalDate = new Date(user.rentalDate);
-    const returnDate = new Date(user.returnDate);
+    const startDate = new Date(user.startDate);
+    const endDate = new Date(user.endDate);
     const price = user.price;
-    const res = Math.abs(rentalDate - returnDate) / 1000;
+    const res = Math.abs(startDate - endDate) / 1000;
     let days = Math.floor(res / 86400);
 
     if (days === 0) {

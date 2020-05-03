@@ -32,8 +32,8 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      rentalDate: null,
-      returnDate: null,
+      startDate: null,
+      endDate: null,
       size: null,
       type: null,
     };
@@ -45,14 +45,14 @@ class Home extends Component {
 
   handleSubmit = (event) => {
     const data = this.state;
-    const { rentalDate, returnDate, size, type } = this.state;
+    const { startDate, endDate, size, type } = this.state;
     event.preventDefault();
 
-    const rentalDateTimestamp = new Date(rentalDate).getTime();
-    const returnDateTimestamp = new Date(returnDate).getTime();
+    const startDateTimestamp = new Date(startDate).getTime();
+    const endDateTimestamp = new Date(endDate).getTime();
 
     this.props.history.push(
-      `/rent-car?carType=${type}&size=${size}&rentalDate=${rentalDateTimestamp}&returnDate=${returnDateTimestamp}`
+      `/rent-car?carType=${type}&size=${size}&startDate=${startDateTimestamp}&endDate=${endDateTimestamp}`
     );
   };
   render() {
@@ -67,7 +67,7 @@ class Home extends Component {
                   id="start"
                   min={this.today}
                   onChange={this.handleChange}
-                  name="rentalDate"
+                  name="startDate"
                   type="date"
                   required
                 />
@@ -76,8 +76,8 @@ class Home extends Component {
                 <input
                   onChange={this.handleChange}
                   id="end"
-                  name="returnDate"
-                  min={this.state.rentalDate}
+                  name="endDate"
+                  min={this.state.startDate}
                   type="date"
                   required
                 />
