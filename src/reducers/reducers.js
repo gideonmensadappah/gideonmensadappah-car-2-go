@@ -3,6 +3,7 @@ import storeState from "../metadata/dummyData.json";
 import { createSelector } from "reselect";
 import { combineReducers } from "redux";
 import { CarList } from "../components/car-list";
+import rentalsReducer from "./rentals";
 
 const customersReducer = (state = [], action) => {
   switch (action.type) {
@@ -24,6 +25,7 @@ const authState = {
   password: "123456",
   isAuthenticated: false,
 };
+
 const authReducer = (state = authState, action) => {
   switch (action.type) {
     case ActionType.LOGIN_SUCCESS:
@@ -43,30 +45,6 @@ const authReducer = (state = authState, action) => {
 
 const carsReducer = (state = storeState, action) => {
   switch (action.type) {
-    case ActionType.RETURN_CAR:
-      return state.map((car) => {
-        if (car.number !== action.id) return car;
-
-        return {
-          ...car,
-          rentedFrom: null,
-          rentedUntil: null,
-        };
-      });
-    case ActionType.RENT_CAR:
-      return state.map((car) => {
-        if (car.number !== action.id) return car;
-
-        return Object.assign(
-          {},
-          {
-            ...car,
-            rentedFrom: action.pickUpDate,
-            rentedUntil: action.returnDate,
-          }
-        );
-      });
-
     case ActionType.ADD_NEW_CAR:
       return [...state, action.car];
     default:
@@ -74,15 +52,13 @@ const carsReducer = (state = storeState, action) => {
   }
 };
 
-const carsList = (carsReducer) => carsReducer;
-
-export const selectRentedCars = createSelector(carsList, (cars) =>
-  cars.filter((car) => car.rentedFrom !== null && car.rentedUntil !== null)
-);
-export const carsInStock = createSelector(carsList, (cars) =>
+export const getCarsState = (state) => state.rentals;
+export const selectRentedCars = createSelector(getCarsState, (cars) => cars);
+export const carsInStock = createSelector(getCarsState, (cars) =>
   cars.filter((car) => car.rentedFrom === null && car.rentedUntil === null)
 );
 export default combineReducers({
+  rentals: rentalsReducer,
   cars: carsReducer,
   auth: authReducer,
   customers: customersReducer,
