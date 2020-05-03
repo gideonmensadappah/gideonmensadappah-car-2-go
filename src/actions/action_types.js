@@ -15,13 +15,26 @@ export const storeDate = (payload) => ({
   type: ActionType.STORE_DATE,
   payload,
 });
-export const addCustomer = (id, name, email, phone) => ({
+export const addCustomer = (
+  id,
+  name,
+  email,
+  phone,
+  carNumber,
+  startDate,
+  endDate,
+  p
+) => ({
   type: ActionType.ADD_CUSTOMER,
   payload: {
     id,
     name,
     email,
     phone,
+    carNumber,
+    startDate,
+    endDate,
+    price: p,
   },
 });
 export const removeCustomer = (carNumber) => ({
