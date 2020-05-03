@@ -52,11 +52,6 @@ const carsReducer = (state = storeState, action) => {
   }
 };
 
-export const getCarsState = (state) => state.rentals;
-export const selectRentedCars = createSelector(getCarsState, (cars) => cars);
-export const carsInStock = createSelector(getCarsState, (cars) =>
-  cars.filter((car) => car.rentedFrom === null && car.rentedUntil === null)
-);
 export default combineReducers({
   rentals: rentalsReducer,
   cars: carsReducer,
