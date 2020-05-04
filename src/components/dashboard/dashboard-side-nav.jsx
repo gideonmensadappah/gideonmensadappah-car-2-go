@@ -42,6 +42,13 @@ const SideNav = ({ handleLogOut }) => {
                   </Link>
                 </li>
 
+                {/*  <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/rented-cars">
+                    <span data-feather="file"></span>
+                    Rented Cars
+                  </Link>
+                </li>
+                */}
                 <li className="nav-item">
                   <Link className="nav-link" to="/dashboard/inventory">
                     <span data-feather="shopping-cart"></span>
