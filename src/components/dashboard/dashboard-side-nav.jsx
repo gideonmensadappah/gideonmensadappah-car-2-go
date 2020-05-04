@@ -41,12 +41,7 @@ const SideNav = ({ handleLogOut }) => {
                     Dashboard <span className="sr-only">(current)</span>
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/dashboard/rented-cars">
-                    <span data-feather="file"></span>
-                    Rented Cars
-                  </Link>
-                </li>
+
                 <li className="nav-item">
                   <Link className="nav-link" to="/dashboard/inventory">
                     <span data-feather="shopping-cart"></span>
