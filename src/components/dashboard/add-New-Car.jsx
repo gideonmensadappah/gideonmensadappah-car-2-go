@@ -46,11 +46,9 @@ class AddNewCar extends Component {
       year: dateObj.getFullYear(),
       price: parseInt(this.state.price),
       type: document.getElementById("type").value,
-      rentedFrom: null,
-      rentedUntil: null,
       kms: this.state.kms,
     };
-    console.log(obj);
+
     addNewCar(obj);
     history.push("/dashboard/inventory");
   };
