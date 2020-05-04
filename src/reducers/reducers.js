@@ -3,7 +3,7 @@ import storeState from "../metadata/dummyData.json";
 import { createSelector } from "reselect";
 import { combineReducers } from "redux";
 import { CarList } from "../components/car-list";
-import rentalsReducer from "./rentals";
+import rentalsReducer, * as rented from "./rentals";
 
 const customersReducer = (state = [], action) => {
   switch (action.type) {
@@ -58,3 +58,25 @@ export default combineReducers({
   auth: authReducer,
   customers: customersReducer,
 });
+
+export const selectRentedCars = (state) =>
+  rented.selectRentedList(state.rentals);
+export const selectCarsList = (state) => state.cars;
+
+const checkIsRented = (car) => {
+  let flag = true;
+  selectRentedCars.forEach((rental) => {
+    if (rental.carId === car.number) {
+      flag = true;
+    }
+  });
+  return flag;
+};
+
+export const selectRentedLists = (state) =>
+  createSelector(selectCarsList, selectRentedCars, (areRented, cars) => {
+    cars.filter((car) => {
+      const isRented = checkIsRented(car);
+      return car && isRented;
+    });
+  });

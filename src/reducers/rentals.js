@@ -27,10 +27,6 @@ const rentalsReducer = (state = [], action) => {
   }
 };
 
-const getRentedCarsState = (rentalsReducer) => rentalsReducer;
-export const selectRentedCars = createSelector(getRentedCarsState, (cars) => {
-  console.log(cars);
-  cars.filter((car) => car);
-});
+export const selectRentedList = (state) => state.rentals;
 
 export default rentalsReducer;
