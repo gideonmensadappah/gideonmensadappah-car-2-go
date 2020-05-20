@@ -2,14 +2,21 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
-import "bootstrap/dist/css/bootstrap.css";
+// import " bootstrap/dist/css/bootstrap.min.css";
 import "font-awesome/css/font-awesome.css";
 import * as serviceWorker from "./serviceWorker";
 import { createStore } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers/reducers";
-import { rented, returnCar, setRentedCar } from "./actions/action_types";
-const store = createStore(rootReducer);
+
+import "/Users/admin/Cars Rental App(React)/node_modules/jquery/dist/jquery.slim.js";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.js";
+
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>

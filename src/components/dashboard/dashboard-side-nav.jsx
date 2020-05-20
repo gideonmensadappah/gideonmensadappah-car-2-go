@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { withRouter, Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { login_failure } from "../../actions/action_types";
 const styles = {
   sidebar: {
     position: "fixed",
@@ -21,53 +23,58 @@ const styles = {
       "auto" /* Scrollable contents if viewport is shorter than content. */,
   },
 };
-export const SideNav = () => {
+const SideNav = ({ handleLogOut }) => {
   return (
     <>
       <div className="container-fluid">
         <div className="row">
           {" "}
           <nav
-            class="col-md-2 d-none d-md-block bg-light"
+            className="col-md-2 d-none d-md-block bg-light"
             style={styles.sidebar}
           >
-            <div class="sidebar-sticky" style={styles.sidebarSsticky}>
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <Link class="nav-link active" href="#">
+            <div className="sidebar-sticky mt-4" style={styles.sidebarSsticky}>
+              <ul className="nav flex-column">
+                <li className="nav-item">
+                  <Link className="nav-link active" to="/dashboard">
                     <span data-feather="home"></span>
-                    Dashboard <span class="sr-only">(current)</span>
+                    Dashboard <span className="sr-only">(current)</span>
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+
+                {/*  <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/rented-cars">
                     <span data-feather="file"></span>
-                    Orders
+                    Rented Cars
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+                */}
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/inventory">
                     <span data-feather="shopping-cart"></span>
-                    Products
+                    Inventory
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/dashboard/customers">
                     <span data-feather="users"></span>
                     Customers
                   </Link>
                 </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
-                    <span data-feather="bar-chart-2"></span>
-                    Reports
-                  </Link>
-                </li>
-                <li class="nav-item">
-                  <Link class="nav-link" href="#">
-                    <span data-feather="layers"></span>
-                    Integrations
-                  </Link>
+
+                <li className="nav-item">
+                  <button
+                    className="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                    onClick={handleLogOut}
+                  >
+                    <span className="navbar-toggler-icon"> logOut</span>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -77,3 +84,5 @@ export const SideNav = () => {
     </>
   );
 };
+
+export default withRouter(SideNav);

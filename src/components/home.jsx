@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-// import data from "../metadata/dummyData.json";
 import home from "./home.css";
-import { withRouter } from "react-router";
 import { connect } from "react-redux";
+
 const styles = {
   checkbox: {
     margin: "5px",
@@ -12,163 +11,159 @@ const styles = {
     flexDirection: "column",
   },
   form: {
+    marginTop: "1em",
     width: "10em",
   },
 };
 
+function formatDate(date) {
+  var d = new Date(date),
+    month = "" + (d.getMonth() + 1),
+    day = "" + d.getDate(),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [year, month, day].join("-");
+}
+
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
-
-    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      startDate: null,
+      endDate: null,
+      size: null,
+      type: null,
+    };
+    this.today = formatDate(Date.now());
   }
-  handleChange(event) {
+
+  handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
-  }
 
-  componentDidMount() {
-    console.log(this.props);
-    this.handleSubmit();
-  }
+  handleSubmit = (event) => {
+    const data = this.state;
+    const { startDate, endDate, size, type } = this.state;
+    event.preventDefault();
 
-  handleSubmit = function () {
-    this.pickUpDate = null;
-    this.returnDate = null;
-    this.carType = null;
-    this.carSize = null;
+    const startDateTimestamp = new Date(startDate).getTime();
+    const endDateTimestamp = new Date(endDate).getTime();
 
-    let form = document.querySelector("form");
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const exampleRadios = document.getElementsByName("exampleRadios");
-      const carSize = document.getElementsByName("checkBoxSize");
-      const dateStartValue = document.getElementById("start").value;
-      const dateReturnValue = document.getElementById("end").value;
-
-      for (let i = 0, length = exampleRadios.length; i < length; i++) {
-        if (exampleRadios[i].checked) {
-          this.carType = exampleRadios[i].value;
-          break;
-        }
-      }
-      for (let i = 0, length = carSize.length; i < length; i++) {
-        if (carSize[i].checked) {
-          this.carSize = carSize[i].value;
-          this.pickUpDate = dateStartValue;
-          this.returnDate = dateReturnValue;
-          const data = {
-            type: this.carType,
-            size: this.carSize,
-            pickUpDate: this.pickUpDate,
-            returnDate: this.returnDate,
-          };
-
-          // this.props.history.push({
-          //   pathname: `/rent-car/${data.type}/${data.size}`,
-          //   state: data,
-          // });
-          break;
-        }
-      }
-    });
+    this.props.history.push(
+      `/rent-car?carType=${type}&size=${size}&startDate=${startDateTimestamp}&endDate=${endDateTimestamp}`
+    );
   };
-
   render() {
-    console.log(this.state);
     return (
-      <>
-        <form style={styles.form}>
-          <div style={styles.date}>
-            <label htmlFor="start">Pickup Date</label>
-            <input
-              id="start"
-              onChange={this.handleChange}
-              name="rentalDate"
-              type="date"
-              required
-            />
-            <label htmlFor="end">Return Date</label>
-            <input
-              id="end"
-              name="return-date"
-              min={this.state.rentalDate}
-              type="date"
-              required
-            />
-          </div>
-          <div className="check-box-size-car" style={styles.checkbox}>
-            <span>CHOOSE SIZE</span>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="checkBoxSize"
-                id="checkBoxSmall"
-                value="1"
-              />
-              <label className="form-check-label" htmlFor="small">
-                Small
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="checkBoxSize"
-                id="exampleRadios2"
-                value="2"
-              />
-              <label className="form-check-label" htmlFor="checkBoxMedium">
-                Medium
-              </label>
-            </div>
-            <div className="form-check">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="checkBoxSize"
-                id="exampleRadios1"
-                value="3"
-              />
-              <label className="form-check-label" htmlFor="checkBoxLarge">
-                Large
-              </label>
-            </div>
-          </div>
-          <span>CHOOSE TYPE</span>
+      <div className="container-body">
+        <div className="center-div">
+          <div id="form-content">
+            <form onSubmit={this.handleSubmit} style={styles.form}>
+              <div style={styles.date}>
+                <label htmlFor="start">Pickup Date</label>
+                <input
+                  id="start"
+                  min={this.today}
+                  onChange={this.handleChange}
+                  name="startDate"
+                  type="date"
+                  required
+                />
 
-          <div className="form-check" style={styles.checkbox}>
-            <input
-              className="form-check-input"
-              type="radio"
-              name="exampleRadios"
-              id="checkboxAuto"
-              value="Auto"
-            />
-            <label className="form-check-label" htmlFor="checkBoxLarge">
-              Auto
-            </label>
-          </div>
-          <div className="form-check" style={styles.checkbox}>
-            <input
-              className="form-check-input"
-              type="radio"
-              name="exampleRadios"
-              id="checkBoxManual"
-              value="Manual"
-            />
-            <label className="form-check-label" htmlFor="checkType">
-              Manual
-            </label>
-          </div>
+                <label htmlFor="end">Return Date</label>
+                <input
+                  onChange={this.handleChange}
+                  id="end"
+                  name="endDate"
+                  min={this.state.startDate}
+                  type="date"
+                  required
+                />
+              </div>
+              <div className="check-box-size-car" style={styles.checkbox}>
+                <span>CHOOSE SIZE</span>
+                <div className="form-check">
+                  <input
+                    onChange={this.handleChange}
+                    className="form-check-input"
+                    type="radio"
+                    name="size"
+                    id="checkBoxSmall"
+                    value="1"
+                  />
+                  <label className="form-check-label" htmlFor="small">
+                    Small
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    onChange={this.handleChange}
+                    className="form-check-input"
+                    type="radio"
+                    name="size"
+                    id="exampleRadios2"
+                    value="2"
+                  />
+                  <label className="form-check-label" htmlFor="checkBoxMedium">
+                    Medium
+                  </label>
+                </div>
+                <div className="form-check">
+                  <input
+                    onChange={this.handleChange}
+                    className="form-check-input"
+                    type="radio"
+                    name="size"
+                    id="exampleRadios1"
+                    value="3"
+                  />
+                  <label className="form-check-label" htmlFor="checkBoxLarge">
+                    Large
+                  </label>
+                </div>
+              </div>
+              <span>CHOOSE TYPE</span>
 
-          <button id="submitButton" type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
-      </>
+              <div className="form-check" style={styles.checkbox}>
+                <input
+                  onChange={this.handleChange}
+                  className="form-check-input"
+                  type="radio"
+                  name="type"
+                  id="checkboxAuto"
+                  value="auto"
+                />
+                <label className="form-check-label" htmlFor="checkBoxLarge">
+                  Auto
+                </label>
+              </div>
+              <div className="form-check" style={styles.checkbox}>
+                <input
+                  onChange={this.handleChange}
+                  className="form-check-input"
+                  type="radio"
+                  name="type"
+                  id="checkBoxManual"
+                  value="manual"
+                />
+                <label className="form-check-label" htmlFor="checkType">
+                  Manual
+                </label>
+              </div>
+
+              <button
+                id="submitButton"
+                type="submit"
+                className="mb-2 btn btn-primary"
+              >
+                Submit
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     );
   }
 }

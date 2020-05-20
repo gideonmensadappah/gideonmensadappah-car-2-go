@@ -1,5 +1,18 @@
 import { ActionType } from "./action_types";
 
+export const STORE_DATE = {
+  type: ActionType.STORE_DATE,
+};
+
+export const REMOVE_DATE = {
+  type: ActionType.REMOVE_DATE,
+};
+export const ADD_CUSTOMER = {
+  type: ActionType.ADD_CUSTOMER,
+};
+export const REMOVE_CUSTOMER = {
+  type: ActionType.REMOVE_CUSTOMER,
+};
 export const RENTED = {
   type: ActionType.RENT,
 };

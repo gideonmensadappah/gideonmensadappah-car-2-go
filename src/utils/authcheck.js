@@ -1,25 +1,33 @@
 import React, { Component } from "react";
-import history from "./history/history";
 import { connect } from "react-redux";
 import { login_success, login_failure } from "../actions/action_types";
 
 class AuthCheck extends Component {
+  constructor() {
+    super();
+    this.user = {
+      name: "Admin@gmail.com",
+      password: "123456",
+    };
+  }
   componentDidMount() {
-    console.log(this.props.auth.isAuthenticated());
-    if (this.props.auth.isAuthenticated()) {
-      this.props.login_success();
-      history.push("/");
+    if (this.props.location.state.userName === this.user.name) {
+      if (this.props.location.state.password === this.user.password) {
+        this.props.login_success();
+
+        this.props.history.push("/dashboard");
+      }
     } else {
       this.props.login_failure();
-      history.replace("/");
+      this.props.history.replace("/dashboard/login");
     }
   }
   render() {
-    return <div></div>;
+    return <div>loading...</div>;
   }
 }
 const mapStateToProps = (state) => {
-  return { state };
+  return { reducerState: state, ReducerAuth: state.auth };
 };
 const mapDispatchToProps = (dispatch) => {
   return {

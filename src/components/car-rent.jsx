@@ -1,90 +1,136 @@
 import React, { Component } from "react";
-// import data from "../metadata/dummyData.json";
-import { Link } from "react-router-dom";
-import carsCss from "./carList.css";
 import { connect } from "react-redux";
+import { CarList } from "./car-list";
+import queryString from "querystring";
+import { FilterCars } from "./FilterCars";
+const styles = {
+  headerText: {
+    fontSize: "2rem",
+  },
+};
+
 class CarRent extends Component {
   constructor() {
     super();
     this.state = {
-      carList: [],
-      isRented: false,
+      cars: [],
+      title: "",
     };
   }
   componentDidMount() {
-    this.getDatAndFilter();
-    this.setState({
-      carList: this.carsList,
-    });
+    this.filterCarsByParams();
   }
 
-  getDatAndFilter = () => {
-    const { rootReducer } = this.props.state;
-    this.size = Number(this.props.match.params.size);
-    this.type = this.props.match.params.type.toLowerCase();
-    this.carsList = rootReducer.filter(
-      (cars) => cars.size === this.size && cars.type === this.type
+  getQueryParams = () => {
+    const { location } = this.props;
+    const query = queryString.parse(
+      location.search.slice(1, location.search.length)
     );
+    return query;
   };
 
-  //handle click function
-  handleClick = (res) => {
-    const date = {
-      pickUp: this.props.history.location.state.pickUpDate,
-      returnDate: this.props.history.location.state.returnDate,
-    };
-    const data = { ...this.props.history.location.state, ...date, ...res };
+  filterCarsByParams = () => {
+    const { cars, location, rentals } = this.props;
 
-    this.props.history.push({
-      pathname: `/user/rent`,
-      state: data,
+    const query = this.getQueryParams();
+    const { size, carType, startDate, endDate } = query;
+
+    const checkIsRented = (car, startDate, endDate) => {
+      let flag = true;
+      rentals.forEach((rental) => {
+        if (rental.carId === car.number) {
+          const isStartDateTaken =
+            startDate >= rental.startDate && startDate <= rental.endDate;
+          const isEndDateTaken =
+            endDate >= rental.startDate && endDate <= rental.endDate;
+
+          if (isStartDateTaken || isEndDateTaken) {
+            flag = false;
+          }
+        }
+      });
+      return flag;
+    };
+
+    const filteredCars = cars.filter((car) => {
+      const isInStock = checkIsRented(car, Number(startDate), Number(endDate));
+
+      return car.size === Number(size) && car.type === carType && isInStock;
+    });
+    const startDateString = new Date(Number(startDate)).toDateString();
+    const endDateString = new Date(Number(endDate)).toDateString();
+
+    if (filteredCars.length > 0) {
+      this.setState({
+        cars: filteredCars,
+        title: `Available Cars Between: ${startDateString} - ${endDateString}`,
+      });
+    } else {
+      this.setState({
+        title: `No Cars Available Between: ${startDateString}/ ${endDateString}`,
+      });
+    }
+  };
+
+  sortFunc = (cars) => {
+    this.setState({
+      cars: cars,
     });
   };
-  render() {
-    const cars = this.state.carList;
-    return (
-      <React.Fragment>
-        <h1>Car rental page</h1>
-        {cars.length > 0
-          ? cars.map((car, index) =>
-              car.rented === false ? (
-                <div className="container my-5" key={index}>
-                  <div className="row">
-                    <div className="col-6">
-                      <div className="card" style={{ width: "30rem" }}>
-                        <img
-                          src={car.image}
-                          className="card-img-top"
-                          alt="..."
-                        />
-                        <div className="card-body">
-                          <h5 className="card-title">
-                            {car.maker + " " + car.name}
-                          </h5>
 
-                          <div className="car-btn">
-                            <input
-                              type="button"
-                              onClick={() => this.handleClick(car)}
-                              className="btn btn-primary"
-                              id="car-list-btn"
-                              value="Rent Now"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ) : null
-            )
-          : "Oops we have no cars"}
-      </React.Fragment>
+  handleClick = (car) => {
+    const { history } = this.props;
+    const query = this.getQueryParams();
+
+    const { startDate, endDate } = query;
+
+    history.push(
+      `/user/rent?carNumber=${car.number}&startDate=${startDate}&endDate=${endDate}&p=${car.price}`
+    );
+  };
+  noCarsRedirectToHome = (props) => {
+    const { history } = this.props;
+    history.push("/");
+  };
+  render() {
+    const query = this.getQueryParams();
+    const { startDate, endDate } = query;
+    const { cars, title } = this.state;
+
+    return (
+      <>
+        {cars.length > 0 ? (
+          <>
+            <h5 style={styles.headerText}>{title}</h5>
+            <FilterCars sortFunc={this.sortFunc} car={cars} />
+            <CarList
+              cars={cars}
+              pickUpDate={startDate}
+              endDate={endDate}
+              click={this.handleClick}
+            />
+          </>
+        ) : (
+          <div className="jumbotron">
+            <h1 className="display-4">Hello, User!</h1>
+            <p className="lead">We Are Out Of Cars On This Date</p>
+            <hr className="my-4" />
+            <input
+              className="btn btn-primary btn-lg"
+              type="button"
+              value="   Back To Home Page"
+              onClick={this.noCarsRedirectToHome}
+            />
+          </div>
+        )}
+      </>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return { state };
-};
+const mapStateToProps = (state) => ({
+  cars: state.cars,
+  rentals: state.rentals,
+});
+
 export default connect(mapStateToProps)(CarRent);

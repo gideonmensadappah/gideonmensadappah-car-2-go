@@ -5,6 +5,7 @@ import { addNewCar } from "../../actions/action_types";
 const styles = {
   imgThumbnail: {
     marginTop: "5px",
+    width: "20px",
   },
 };
 
@@ -28,7 +29,6 @@ class AddNewCar extends Component {
     event.preventDefault();
 
     // File
-
     const img = document.createElement("img");
     img.src = URL.createObjectURL(this.fileInput.current.files[0]);
 
@@ -36,23 +36,22 @@ class AddNewCar extends Component {
     img.onload = () => URL.revokeObjectURL(this.src);
     const div = document.getElementById("imageStore");
     div.appendChild(img);
-    // end File
 
+    const dateObj = new Date(this.state.year);
     const obj = {
       number: parseInt(this.state.number),
       maker: this.state.maker,
       name: this.state.name,
       size: parseInt(document.getElementById("size").value),
       image: URL.createObjectURL(this.fileInput.current.files[0]),
-      year: this.state.year,
+      year: dateObj.getFullYear(),
       price: parseInt(this.state.price),
       type: document.getElementById("type").value,
-      rented: false,
       kms: this.state.kms,
     };
 
     addNewCar(obj);
-    history.push("/");
+    history.push("/dashboard/inventory");
   };
 
   render() {
@@ -93,7 +92,7 @@ class AddNewCar extends Component {
                   />
                 </div>
                 <div className="form-group">
-                  <label htmlFor="price"> price</label>
+                  <label htmlFor="price">price Per Day</label>
                   <input
                     onChange={this.handleInputChange}
                     type="text"

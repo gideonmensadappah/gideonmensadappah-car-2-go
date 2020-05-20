@@ -1,22 +1,31 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { login_success } from "../../actions/action_types";
 class LogIn extends Component {
-  constructor() {
-    super();
-    this.state = {};
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  constructor(props) {
+    super(props);
+    this.state = {
+      userName: "",
+      password: "",
+    };
   }
-
   handleChange = (event) =>
     this.setState({ [event.target.name]: event.target.value });
+
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
-    this.props.auth.login();
-
-    //jwt web token//
+    const { ReducerAuth } = this.props;
+    if (ReducerAuth.name !== this.state.userName) {
+      alert("Email Is Not Correct!");
+    } else if (ReducerAuth.password !== this.state.password) {
+      alert("Password Is Not Correct!");
+    } else {
+      this.props.history.push({
+        pathname: "/authcheck",
+        state: this.state,
+      });
+    }
   };
   render() {
     return (
@@ -31,12 +40,15 @@ class LogIn extends Component {
                   className="form-control"
                   id="exampleInputEmail1"
                   onChange={this.handleChange}
+                  name="userName"
                   aria-describedby="emailHelp"
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="exampleInputPassword1">Password</label>
                 <input
+                  onChange={this.handleChange}
+                  name="password"
                   type="password"
                   className="form-control"
                   id="exampleInputPassword1"
@@ -53,5 +65,8 @@ class LogIn extends Component {
     );
   }
 }
+const mapStateToProps = ({ auth }) => {
+  return { ReducerAuth: auth };
+};
 
-export default connect(null)(LogIn);
+export default withRouter(connect(mapStateToProps)(LogIn));

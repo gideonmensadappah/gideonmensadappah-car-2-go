@@ -1,3 +1,30 @@
+/* For mobile phones: */
+@media screen and (max-width: 600px) {
+  div#form-content {
+    color: white;
+    width: 100%;
+    background-color: black;
+  }
+}
+
+.container-body {
+  padding: 30px;
+  /* background-color: #fcfcfc; */
+}
+.center-div {
+  border-radius: 5px;
+  margin: 0 auto;
+  max-width: 700px;
+}
+
+#form-content {
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  width: 50em;
+  background-color: rgb(196, 190, 190);
+}
+
 label {
   display: block;
   font: 1rem "Fira Sans", sans-serif;
@@ -10,6 +37,4 @@ label {
 
 #home {
   border: 1px solid black;
-}
-.nav-link {
 }
