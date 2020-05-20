@@ -31,7 +31,7 @@ const ReturnCarForm = ({
   const handleClick = useCallback(() => {
     removeCustomer(parseInt(carNumber));
     const { id } = user.user;
-    console.log(id);
+
     carToReturn(id);
     history.push("/thank-you-user");
   }, [carNumber, carToReturn, user, removeCustomer, history]);

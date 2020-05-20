@@ -17,7 +17,6 @@ const Dashboard = (props) => {
   const { logOut, history } = props;
 
   const handleLogOut = useCallback(() => {
-    console.log("hi");
     logOut();
     history.push("/");
   }, [history, logOut]);
