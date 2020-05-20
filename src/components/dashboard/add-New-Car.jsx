@@ -5,6 +5,7 @@ import { addNewCar } from "../../actions/action_types";
 const styles = {
   imgThumbnail: {
     marginTop: "5px",
+    width: "20px",
   },
 };
 
