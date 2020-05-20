@@ -11,6 +11,8 @@ import rootReducer from "./reducers/reducers";
 
 import "/Users/admin/Cars Rental App(React)/node_modules/jquery/dist/jquery.slim.js";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.js";
+
 const store = createStore(
   rootReducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
