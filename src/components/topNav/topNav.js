@@ -12,14 +12,13 @@ const TopNav = (props) => {
     <nav className="navbar navbar-expand-lg bg-inverse  fixed-top navbar-light bg-light">
       <div className="navbar-header">
         <button
-          className="navbar-toggler"
+          className="navbar-toggler "
           type="button"
           data-toggle="collapse"
           data-target="#navbarNav"
           aria-controls="navbarNav"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          onClick={() => alert("hello")}
         >
           <span className="navbar-toggler-icon"></span>
         </button>
