@@ -4,6 +4,8 @@ import { createSelector } from "reselect";
 import { combineReducers } from "redux";
 import { CarList } from "../components/car-list";
 import rentalsReducer, * as rented from "./rentals";
+import { persistStore, persisReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 
 const customersReducer = (state = [], action) => {
   switch (action.type) {

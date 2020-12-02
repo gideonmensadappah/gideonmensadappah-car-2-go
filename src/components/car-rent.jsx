@@ -5,7 +5,8 @@ import queryString from "querystring";
 import { FilterCars } from "./FilterCars";
 const styles = {
   headerText: {
-    fontSize: "2rem",
+    display: "flex",
+    justifyContent: "center",
   },
 };
 
@@ -101,7 +102,9 @@ class CarRent extends Component {
       <>
         {cars.length > 0 ? (
           <>
-            <h5 style={styles.headerText}>{title}</h5>
+            <div style={styles.headerText}>
+              <h1>{title}</h1>
+            </div>
             <FilterCars sortFunc={this.sortFunc} car={cars} />
             <CarList
               cars={cars}

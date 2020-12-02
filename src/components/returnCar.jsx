@@ -111,74 +111,71 @@ const ReturnCarForm = ({
   );
 
   return (
-    <div className="container-div">
-      <div className="center-div">
-        <div className="container-form">
-          <form onSubmit={handleSubmitForm} id="form-box">
-            <label>Phone Number:</label> <br />
-            <input
-              onChange={handleInputChangeName}
-              placeholder="Phone Number "
-            />
-            <br />
-            <label>Car Number:</label> <br />
-            <input onChange={handleInputChangeCarNumber} placeholder="number" />
-            <div className="checkBox-div">
-              <div className="form-group">
-                <div className="form-check mt-3">
-                  <input
-                    className="form-check-input"
-                    value="Full"
-                    onChange={handleFuelChange}
-                    type="checkbox"
-                    id="fuel"
-                  />
-                  <label className="form-check-label" htmlFor="fuel">
-                    Full Fuel
-                  </label>
-                </div>
-              </div>
-              <div className="form-group ml-3">
-                <div className="form-check mt-3">
-                  <input
-                    className="form-check-input"
-                    value="Empty"
-                    onChange={handleFuelChange}
-                    type="checkbox"
-                    id="fuel-empty"
-                  />
-                  <label className="form-check-label" htmlFor="fuel">
-                    Empty Fuel
-                  </label>
-                </div>
+    // <div className="container-div">
+    <div className="center-div">
+      <div className="container-form">
+        <form onSubmit={handleSubmitForm} id="form-box">
+          <label>Phone Number:</label> <br />
+          <input onChange={handleInputChangeName} placeholder="Phone Number " />
+          <br />
+          <label>Car Number:</label> <br />
+          <input onChange={handleInputChangeCarNumber} placeholder="number" />
+          <div className="checkBox-div">
+            <div className="form-group">
+              <div className="form-check mt-3">
+                <input
+                  className="form-check-input"
+                  value="Full"
+                  onChange={handleFuelChange}
+                  type="checkbox"
+                  id="fuel"
+                />
+                <label className="form-check-label" htmlFor="fuel">
+                  Full Fuel
+                </label>
               </div>
             </div>
-            <input
-              type="submit"
-              className="ml-2 btn btn-outline-primary btn-sm"
-              value="Return"
-            />
-          </form>
-          <div id="payment-box" className="payment-div">
-            <p>
-              {fuelPrice !== 0 ? (
-                <span style={styles.fine}>
-                  Fine! Due Not Filling The Fuel: {fuelPrice}₪
-                </span>
-              ) : null}{" "}
-              <br />
-              <span className="total-price ">The Price is: {total}₪</span>
-            </p>
-            <input
-              className="payment btn btn-primary ml-2"
-              type="button"
-              onClick={handleClick}
-              value="Pay"
-            />
+            <div className="form-group ml-3">
+              <div className="form-check mt-3">
+                <input
+                  className="form-check-input"
+                  value="Empty"
+                  onChange={handleFuelChange}
+                  type="checkbox"
+                  id="fuel-empty"
+                />
+                <label className="form-check-label" htmlFor="fuel">
+                  Empty Fuel
+                </label>
+              </div>
+            </div>
           </div>
+          <input
+            type="submit"
+            className="ml-2 btn btn-outline-primary btn-sm"
+            value="Return"
+          />
+        </form>
+        <div id="payment-box" className="payment-div">
+          <p>
+            {fuelPrice !== 0 ? (
+              <span style={styles.fine}>
+                Fine! Due Not Filling The Fuel: {fuelPrice}₪
+              </span>
+            ) : null}{" "}
+            <br />
+            <span className="total-price ">The Price is: {total}₪</span>
+          </p>
+          <input
+            className="payment btn btn-primary ml-2"
+            type="button"
+            onClick={handleClick}
+            value="Pay"
+          />
         </div>
       </div>
     </div>
+    // </div>
   );
 };
 

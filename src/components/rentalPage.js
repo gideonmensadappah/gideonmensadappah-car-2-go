@@ -7,6 +7,13 @@ import { useMemo } from "react";
 import queryString from "querystring";
 import { v4 as uuidv4 } from "uuid";
 
+const styles = {
+  container: {
+    display: "flex",
+    justifyContent: "center",
+  },
+};
+
 const Rental = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -64,53 +71,47 @@ const Rental = (props) => {
     ]
   );
   return (
-    <>
-      <div className="container">
-        <div className="row">
-          <div className="col-6">
-            <form onSubmit={handleSubmitForm}>
-              <div className="form-group">
-                <label htmlFor="name">Name </label>
-                <input
-                  type="text"
-                  id="name"
-                  onChange={handleOnChangeName}
-                  name="name"
-                  className="form-control"
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="email">Email address</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  onChange={handleOnChangeEmail}
-                  className="form-control"
-                  aria-describedby="emailHelp"
-                />
-                <small id="emailHelp" className="form-text text-muted">
-                  We'll never share your email with anyone else.
-                </small>
-              </div>
-              <div className="form-group">
-                <label htmlFor="phone"> Phone</label>
-                <input
-                  type="tel"
-                  onChange={handleOnChangePhone}
-                  name="phone"
-                  id="phone"
-                  className="form-control"
-                />
-              </div>
-              <button type="submit" className="btn btn-primary">
-                Rent
-              </button>
-            </form>
-          </div>
+    <div style={styles.container}>
+      <form onSubmit={handleSubmitForm}>
+        <div className="form-group">
+          <input
+            placeholder="Name"
+            type="text"
+            id="name"
+            onChange={handleOnChangeName}
+            name="name"
+            className="form-control"
+          />
         </div>
-      </div>
-    </>
+        <div className="form-group">
+          <input
+            placeholder="Email"
+            type="email"
+            name="email"
+            id="email"
+            onChange={handleOnChangeEmail}
+            className="form-control"
+            aria-describedby="emailHelp"
+          />
+          <small id="emailHelp" className="form-text text-muted">
+            We'll never share your email with anyone else.
+          </small>
+        </div>
+        <div className="form-group">
+          <input
+            type="tel"
+            placeholder="Phone"
+            onChange={handleOnChangePhone}
+            name="phone"
+            id="phone"
+            className="form-control"
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Rent
+        </button>
+      </form>
+    </div>
   );
 };
 

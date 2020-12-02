@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 export const ActionType = {
   ADD_CUSTOMER: "ADD_CUSTOMER",
   REMOVE_CUSTOMER: "REMOVE_CUSTOMER",

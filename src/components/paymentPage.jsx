@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import data from "../metadata/dummyData.json";
 
 const style = {
@@ -75,9 +75,7 @@ export const PaymentPage = (props) => {
                         {index + count}
                         <button
                           type="button"
-                          onClick={function () {
-                            addToTotal(_item.price);
-                          }}
+                          onClick={() => addToTotal(_item.price)}
                           id="plus-count"
                           className="btn"
                         >
